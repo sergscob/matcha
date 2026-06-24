@@ -48,7 +48,7 @@ export function RegisterPage() {
       <form onSubmit={handleSubmit}>
         <label>
           Email
-          <input type="email" name="email" value={form.email} onChange={handleChange} required autoComplete="email" />
+          <input type="email" name="email" value={form.email} onChange={handleChange} required autoComplete="email" maxLength={254} />
         </label>
 
         <label>
@@ -58,17 +58,17 @@ export function RegisterPage() {
 
         <label>
           First name
-          <input type="text" name="firstName" value={form.firstName} onChange={handleChange} required autoComplete="given-name" />
+          <input type="text" name="firstName" value={form.firstName} onChange={handleChange} required autoComplete="given-name" maxLength={50} />
         </label>
 
         <label>
           Last name
-          <input type="text" name="lastName" value={form.lastName} onChange={handleChange} required autoComplete="family-name" />
+          <input type="text" name="lastName" value={form.lastName} onChange={handleChange} required autoComplete="family-name" maxLength={50} />
         </label>
 
         <label>
           Password
-          <input type="password" name="password" value={form.password} onChange={handleChange} minLength={8} required autoComplete="new-password" />
+          <input type="password" name="password" value={form.password} onChange={handleChange} minLength={8} maxLength={128} required autoComplete="new-password" />
         </label>
 
         {error && <p className="error">{error}</p>}

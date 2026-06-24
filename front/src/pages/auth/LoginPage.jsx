@@ -37,12 +37,12 @@ export function LoginPage() {
       <form onSubmit={handleSubmit}>
         <label>
           Username
-          <input type="text" name="username" value={form.username} onChange={handleChange} required autoComplete="username" />
+          <input type="text" name="username" value={form.username} onChange={handleChange} required autoComplete="username" maxLength={30} />
         </label>
 
         <label>
           Password
-          <input type="password" name="password" value={form.password} onChange={handleChange} required autoComplete="current-password" />
+          <input type="password" name="password" value={form.password} onChange={handleChange} required autoComplete="current-password" maxLength={128} />
         </label>
 
         {error && <p className="error">{error}</p>}

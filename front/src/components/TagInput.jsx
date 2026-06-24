@@ -54,7 +54,7 @@ export function TagInput({ tags, onChange }) {
       <div className="tag-list">
         {tags.map(tag => (
           <span key={tag} className="tag-chip">
-            #{tag}
+            <span className="tag-chip-label">#{tag}</span>
             <button type="button" onClick={() => removeTag(tag)} aria-label={`Remove ${tag}`}>×</button>
           </span>
         ))}
@@ -67,6 +67,7 @@ export function TagInput({ tags, onChange }) {
         onKeyDown={handleKeyDown}
         placeholder="Add an interest and press Enter (e.g. vegan)"
         autoComplete="off"
+        maxLength={30}
       />
 
       {suggestions.length > 0 && (

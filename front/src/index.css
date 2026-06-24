@@ -97,6 +97,12 @@ button:disabled {
 
 .username {
   font-weight: 600;
+  display: inline-block;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: bottom;
 }
 
 .main {
@@ -225,6 +231,13 @@ textarea {
   padding: 0;
   font-size: 1rem;
   line-height: 1;
+}
+
+.tag-chip-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 160px;
 }
 
 .tag-suggestions {
@@ -383,6 +396,14 @@ textarea {
   background: #fbe3ec;
 }
 
+.notification-list li a {
+  display: inline-block;
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .notification-time {
   color: #777;
   font-size: 0.8rem;
@@ -482,10 +503,16 @@ textarea {
 
 .discover-card-info strong {
   font-size: 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .discover-card-info .status {
   font-size: 0.8rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .map-container {
@@ -500,6 +527,14 @@ textarea {
   flex-direction: column;
   gap: 0.25rem;
   min-width: 140px;
+  max-width: 200px;
+}
+
+.map-popup strong,
+.map-popup span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .map-popup img {
@@ -570,6 +605,12 @@ textarea {
   gap: 0.1rem;
   min-width: 0;
   flex: 1;
+}
+
+.conversation-info strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .conversation-preview {

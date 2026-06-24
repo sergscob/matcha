@@ -20,7 +20,9 @@
       "Bash(pdftotext fr.subject.pdf /tmp/claude-1000/-home-adv--ssh-42-matcha/c250d854-2c0f-40c5-a750-a51ec755c6ac/scratchpad/subject.txt)",
       "Bash(echo \"exit:$?\")",
       "Bash(node -e \"require\\('playwright'\\); console.log\\('ok'\\)\")",
-      "Bash(node test_map.js)"
+      "Bash(node test_map.js)",
+      "Bash(xargs -I{} sh -c 'echo \"== {} ==\"; cat {}')",
+      "Bash(grep -n \"\\\\.header\\\\|\\\\.nav \\\\|\\\\.nav{\\\\|\\\\.nav,\\\\|\\\\.username\\\\|\\\\.notification-list\\\\|\\\\.tag-list\\\\|\\\\.tag-chip\\\\|\\\\.conversation-info\\\\|\\\\.conversation-link\\\\|\\\\.conversation-preview\" /home/adv/.ssh/42/matcha/front/src/index.css)"
     ],
     "additionalDirectories": [
       "/tmp/claude-1000/-home-adv--ssh-42-matcha/185e320d-1005-4ea2-bd57-530655277040/scratchpad/pw/uploads"

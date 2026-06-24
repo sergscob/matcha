@@ -58,32 +58,32 @@ export function DiscoverList({ endpoint }) {
       <form className="filters" onSubmit={handleSubmit}>
         <label>
           Age min
-          <input type="number" name="ageMin" value={filters.ageMin} onChange={handleChange} min="18" autoComplete="off" />
+          <input type="number" name="ageMin" value={filters.ageMin} onChange={handleChange} min="18" max="120" autoComplete="off" />
         </label>
 
         <label>
           Age max
-          <input type="number" name="ageMax" value={filters.ageMax} onChange={handleChange} min="18" autoComplete="off" />
+          <input type="number" name="ageMax" value={filters.ageMax} onChange={handleChange} min="18" max="120" autoComplete="off" />
         </label>
 
         <label>
           Popularity min
-          <input type="number" name="popularityMin" value={filters.popularityMin} onChange={handleChange} autoComplete="off" />
+          <input type="number" name="popularityMin" value={filters.popularityMin} onChange={handleChange} min="0" max="100000" autoComplete="off" />
         </label>
 
         <label>
           Popularity max
-          <input type="number" name="popularityMax" value={filters.popularityMax} onChange={handleChange} autoComplete="off" />
+          <input type="number" name="popularityMax" value={filters.popularityMax} onChange={handleChange} min="0" max="100000" autoComplete="off" />
         </label>
 
         <label>
           Location
-          <input type="text" name="location" value={filters.location} onChange={handleChange} placeholder="city" autoComplete="off" />
+          <input type="text" name="location" value={filters.location} onChange={handleChange} placeholder="city" autoComplete="off" maxLength={100} />
         </label>
 
         <label>
           Tags
-          <input type="text" name="tags" value={filters.tags} onChange={handleChange} placeholder="vegan,geek" autoComplete="off" />
+          <input type="text" name="tags" value={filters.tags} onChange={handleChange} placeholder="vegan,geek" autoComplete="off" maxLength={250} />
         </label>
 
         <label>

@@ -33,7 +33,7 @@ export function ResetPasswordPage() {
       <form onSubmit={handleSubmit}>
         <label>
           New password
-          <input type="password" value={password} onChange={e => setPassword(e.target.value)} minLength={8} required autoComplete="new-password" />
+          <input type="password" value={password} onChange={e => setPassword(e.target.value)} minLength={8} maxLength={128} required autoComplete="new-password" />
         </label>
 
         {error && <p className="error">{error}</p>}

@@ -35,7 +35,7 @@ export function ForgotPasswordPage() {
         <form onSubmit={handleSubmit}>
           <label>
             Email
-            <input type="email" value={email} onChange={e => setEmail(e.target.value)} required autoComplete="email" />
+            <input type="email" value={email} onChange={e => setEmail(e.target.value)} required autoComplete="email" maxLength={254} />
           </label>
 
           {error && <p className="error">{error}</p>}

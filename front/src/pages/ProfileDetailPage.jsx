@@ -118,7 +118,7 @@ export function ProfileDetailPage() {
       {profile.bio && <p>{profile.bio}</p>}
 
       <div className="tag-list">
-        {profile.tags.map(tag => <span key={tag} className="tag-chip">#{tag}</span>)}
+        {profile.tags.map(tag => <span key={tag} className="tag-chip"><span className="tag-chip-label">#{tag}</span></span>)}
       </div>
 
 

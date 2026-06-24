@@ -8,9 +8,9 @@ function isAdult(dateStr) {
 }
 
 export const updateProfileSchema = z.object({
-  firstName: z.string().min(1).optional(),
-  lastName: z.string().min(1).optional(),
-  email: z.email().optional(),
+  firstName: z.string().min(1).max(50).optional(),
+  lastName: z.string().min(1).max(50).optional(),
+  email: z.email().max(254).optional(),
   gender: z.enum(["male", "female"]).optional(),
   sexualOrientation: z.enum(["heterosexual", "homosexual", "bisexual"]).optional(),
   bio: z.string().max(500).optional(),
@@ -19,7 +19,7 @@ export const updateProfileSchema = z.object({
 });
 
 export const manualLocationSchema = z.object({
-  locationLabel: z.string().min(1).max(255)
+  locationLabel: z.string().min(1).max(100)
 });
 
 export const gpsLocationSchema = z.object({
