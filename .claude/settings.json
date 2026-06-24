@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e ' *)",
+      "Bash(node verify-images.js)",
+      "Bash(node screenshot-avatars.js)",
+      "Bash(cd /home/adv/.ssh/42/matcha/back && rm -f uploads/test-avatar-*.png)",
+      "Bash(node verify-squares.js)",
+      "Bash(rm -f verify-squares.js)",
+      "Bash(node --check src/scripts/seed.js)",
+      "Bash(node src/scripts/seed.js 3)"
+    ],
+    "additionalDirectories": [
+      "/tmp/claude-1000/-home-adv--ssh-42-matcha/185e320d-1005-4ea2-bd57-530655277040/scratchpad/pw/uploads"
+    ]
+  }
+}
