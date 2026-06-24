@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 import { api } from "../api/client";
 
@@ -43,7 +44,8 @@ export function NotificationsPage() {
       <ul className="notification-list">
         {notifications.map(n => (
           <li key={n.id} className={n.isRead ? "" : "unread"}>
-            <strong>{n.actor?.username || "Someone"}</strong> {TYPE_LABELS[n.type] || n.type}
+            <Link to={'/users/'+n.actor?.id}><strong>{n.actor?.username || "Someone"}</strong></Link>
+            {TYPE_LABELS[n.type] || n.type}
             <span className="notification-time">{new Date(n.createdAt).toLocaleString()}</span>
           </li>
         ))}

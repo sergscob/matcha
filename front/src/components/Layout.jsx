@@ -40,7 +40,7 @@ export function Layout() {
       </main>
 
       <footer className="footer">
-        <p>&copy; {new Date().getFullYear()} Matcha</p>
+        <p>2026 Matcha</p>
       </footer>
     </div>
   );

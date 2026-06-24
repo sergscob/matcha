@@ -21,10 +21,23 @@ export function RegisterPage() {
     setSubmitting(true);
 
     try {
-      await api.post("/auth/register", form);
+      const response = await api.post("/auth/register", form);
+      console.log(response)
       setRegisteredEmail(form.email);
     } catch (err) {
-      setError(err.message);
+      let str = err.message
+        console.dir(err)
+        console.log(err.data)
+        console.log(err.message)
+        for (const s in err)
+          console.log(s)
+
+      if (err.issues) {
+        console.log(err.issues)
+        str += ': ' + err.issues.map(el=>el.message).join(',')
+      }
+      setError(str);
+      
     } finally {
       setSubmitting(false);
     }

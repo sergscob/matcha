@@ -100,6 +100,7 @@ async function seedUser(index, passwordHash, tagIds) {
   const lastName = faker.person.lastName();
   const slug = faker.helpers.slugify(`${firstName}_${lastName}`).toLowerCase().slice(0, 25);
   const username = `seed_${slug}_${index}`;
+  console.log( username)
   const email = `${username}@${SEED_EMAIL_DOMAIN}`;
   const city = faker.helpers.arrayElement(CITIES);
   const birthDate = faker.date.birthdate({ min: 18, max: 65, mode: "age" }).toISOString().slice(0, 10);

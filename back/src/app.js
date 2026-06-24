@@ -13,10 +13,7 @@ import discoverRoutes from "./modules/discover/discover.routes.js";
 import notificationsRoutes from "./modules/notifications/notifications.routes.js";
 import chatRoutes from "./modules/chat/chat.routes.js";
 import { initSocket } from "./realtime/socket.js";
-import {
-  notFoundHandler,
-  errorHandler
-} from "./middleware/error.middleware.js";
+import { notFoundHandler, errorHandler } from "./middleware/error.middleware.js";
 
 dotenv.config();
 
@@ -37,9 +34,7 @@ app.use(cookieParser());
 app.use("/uploads", express.static(path.resolve("uploads")));
 
 app.get("/", (req, res) => {
-  res.json({
-    message: "Matcha API"
-  });
+  res.json({ message: "Matcha API" });
 });
 
 app.use("/auth", authRoutes);
