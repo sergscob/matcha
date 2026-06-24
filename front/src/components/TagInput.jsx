@@ -19,8 +19,12 @@ export function TagInput({ tags, onChange }) {
       return;
     }
 
-    const results = await api.get(`/profile/tags?search=${encodeURIComponent(normalize(value))}`);
-    setSuggestions(results.filter(tag => !tags.includes(tag)));
+    try {
+      const results = await api.get(`/profile/tags?search=${encodeURIComponent(normalize(value))}`);
+      setSuggestions(results.filter(tag => !tags.includes(tag)));
+    } catch {
+      setSuggestions([]);
+    }
   }
 
   function addTag(rawTag) {
@@ -62,6 +66,7 @@ export function TagInput({ tags, onChange }) {
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
         placeholder="Add an interest and press Enter (e.g. vegan)"
+        autoComplete="off"
       />
 
       {suggestions.length > 0 && (

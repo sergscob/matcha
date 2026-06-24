@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { api } from "../api/client";
+import { Spinner } from "../components/Spinner";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -11,7 +12,7 @@ export function ProfileDetailPage() {
   const [profile, setProfile] = useState(null);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
-  const [actionPending, setActionPending] = useState(false);
+  const [pendingAction, setPendingAction] = useState(null);
 
   const load = useCallback(async () => {
     setError(null);
@@ -28,7 +29,7 @@ export function ProfileDetailPage() {
   }, [load]);
 
   async function handleLikeToggle() {
-    setActionPending(true);
+    setPendingAction("like");
     setMessage(null);
 
     try {
@@ -41,24 +42,24 @@ export function ProfileDetailPage() {
     } catch (err) {
       setMessage(err.message);
     } finally {
-      setActionPending(false);
+      setPendingAction(null);
     }
   }
 
   async function handleBlock() {
-    setActionPending(true);
+    setPendingAction("block");
 
     try {
       await api.post(`/discover/${id}/block`);
       navigate(-1);
     } catch (err) {
       setMessage(err.message);
-      setActionPending(false);
+      setPendingAction(null);
     }
   }
 
   async function handleReport() {
-    setActionPending(true);
+    setPendingAction("report");
     setMessage(null);
 
     try {
@@ -67,7 +68,7 @@ export function ProfileDetailPage() {
     } catch (err) {
       setMessage(err.message);
     } finally {
-      setActionPending(false);
+      setPendingAction(null);
     }
   }
 
@@ -95,6 +96,13 @@ export function ProfileDetailPage() {
       </h1>
 
       <p className="status">
+        {profile.gender=='female' ? "F" : profile.gender=='male' ? "M" : "?"}
+        {" · "}
+        {profile.sexualOrientation=='bisexual' ? "bisexual" : 
+          profile.sexualOrientation=='heterosexual' ? "heterosexual" : profile.sexualOrientation=='homosexual' ? "homosexual" : "?"}
+      </p>
+      <p className="status">
+
         {profile.locationLabel || "Location not set"} · Popularity {profile.popularityScore}
         {" · "}
         {profile.isOnline
@@ -104,8 +112,8 @@ export function ProfileDetailPage() {
             : "Never connected"}
       </p>
 
-      {profile.isConnected && <p className="status">You are connected with {profile.firstName}.</p>}
-      {!profile.isConnected && profile.likedByThem && <p className="status">{profile.firstName} liked you!</p>}
+      {profile.isConnected && <p className="status liked">You are connected with {profile.firstName}.</p>}
+      {!profile.isConnected && profile.likedByThem && <p className="status liked">{profile.firstName} liked you!</p>}
 
       {profile.bio && <p>{profile.bio}</p>}
 
@@ -113,18 +121,25 @@ export function ProfileDetailPage() {
         {profile.tags.map(tag => <span key={tag} className="tag-chip">#{tag}</span>)}
       </div>
 
-      {message && <p className="status">{message}</p>}
 
       <div className="profile-actions-row">
-        <button type="button" onClick={handleLikeToggle} disabled={actionPending}>
+        <button type="button" onClick={handleLikeToggle} disabled={Boolean(pendingAction)}>
+          {pendingAction === "like" && <Spinner />}
           {profile.hasLiked ? "Unlike" : "Like"}
         </button>
         {profile.isConnected && (
           <button type="button" onClick={() => navigate(`/chat/${id}`)}>Message</button>
         )}
-        <button type="button" className="btn-secondary" onClick={handleBlock} disabled={actionPending}>Block</button>
-        <button type="button" className="btn-secondary" onClick={handleReport} disabled={actionPending}>Report fake account</button>
+        <button type="button" className="btn-secondary" onClick={handleBlock} disabled={Boolean(pendingAction)}>
+          {pendingAction === "block" && <Spinner />}
+          Block
+        </button>
+        <button type="button" className="btn-secondary" onClick={handleReport} disabled={Boolean(pendingAction)}>
+          {pendingAction === "report" && <Spinner />}
+          Report fake account
+        </button>
       </div>
+        {message && <p className="status">{message}</p>}
     </div>
   );
 }

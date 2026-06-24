@@ -118,10 +118,6 @@ export async function likeUser(actorId, subjectId) {
     return;
   }
 
-  // subject already liked actor first -> this completes a mutual match,
-  // so subject (the original liker) gets the upgraded "match" notification
-  // instead of a plain "like" one. The recipient is always subject, since
-  // subject is who is being liked by this action.
   const mutual = await hasLiked(subjectId, actorId);
 
   await insertLike(actorId, subjectId);

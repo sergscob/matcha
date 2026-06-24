@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-import { api } from "../api/client";
+import { api } from "../../api/client";
+import { Spinner } from "../../components/Spinner";
 
 export function ResetPasswordPage() {
   const { token } = useParams();
@@ -32,12 +33,13 @@ export function ResetPasswordPage() {
       <form onSubmit={handleSubmit}>
         <label>
           New password
-          <input type="password" value={password} onChange={e => setPassword(e.target.value)} minLength={8} required />
+          <input type="password" value={password} onChange={e => setPassword(e.target.value)} minLength={8} required autoComplete="new-password" />
         </label>
 
         {error && <p className="error">{error}</p>}
 
         <button type="submit" disabled={submitting}>
+          {submitting && <Spinner />}
           {submitting ? "Updating..." : "Update password"}
         </button>
       </form>

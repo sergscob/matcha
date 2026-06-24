@@ -14,6 +14,11 @@ async function request(path, { method = "GET", body, formData } = {}) {
     throw new Error(data.message || "Something went wrong");
   }
 
+  if (data.error) {
+    const issuesText = data.issues?.length ? `: ${data.issues.map(issue => issue.message).join(", ")}` : "";
+    throw new Error((data.message || "Something went wrong") + issuesText);
+  }
+
   return data;
 }
 

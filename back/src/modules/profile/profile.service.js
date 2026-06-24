@@ -30,8 +30,13 @@ const MAX_PHOTOS = 5;
 const EMAIL_VERIFICATION_TTL_MS = 24 * 60 * 60 * 1000;
 const ALLOWED_EXTENSIONS = { "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp" };
 const UPLOADS_DIR = path.resolve("uploads");
+const ONLINE_THRESHOLD_MS = 2 * 60 * 1000;
 
 fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+
+function isOnline(lastSeen) {
+  return Boolean(lastSeen) && Date.now() - new Date(lastSeen).getTime() < ONLINE_THRESHOLD_MS;
+}
 
 function serializeProfile(user, tags, photos) {
   return {
@@ -180,7 +185,19 @@ export async function setProfilePhoto(userId, photoId) {
 }
 
 export async function getProfileVisitors(userId) {
-  return getProfileViewers(userId);
+  const rows = await getProfileViewers(userId);
+
+  return rows.map(row => ({
+    id: row.id,
+    username: row.username,
+    firstName: row.first_name,
+    lastName: row.last_name,
+    photoUrl: row.profile_photo ? `/uploads/${row.profile_photo}` : null,
+    isOnline: isOnline(row.last_seen),
+    viewedAt: row.viewed_at,
+    likedMe: row.liked_me,
+    likedByMe: row.liked_by_me
+  }));
 }
 
 export async function getProfileLikers(userId) {

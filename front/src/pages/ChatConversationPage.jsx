@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { api } from "../api/client";
 import { useAuth } from "../context/useAuth";
 import { useSocket } from "../context/useSocket";
+import { Spinner } from "../components/Spinner";
 
 export function ChatConversationPage() {
   const { id } = useParams();
@@ -101,8 +102,12 @@ export function ChatConversationPage() {
           onChange={e => setBody(e.target.value)}
           placeholder="Type a message..."
           maxLength={2000}
+          autoComplete="off"
         />
-        <button type="submit" disabled={sending || !body.trim()}>Send</button>
+        <button type="submit" disabled={sending || !body.trim()}>
+          {sending && <Spinner />}
+          Send
+        </button>
       </form>
     </div>
   );

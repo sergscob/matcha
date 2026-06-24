@@ -8,7 +8,17 @@
       "Bash(node verify-squares.js)",
       "Bash(rm -f verify-squares.js)",
       "Bash(node --check src/scripts/seed.js)",
-      "Bash(node src/scripts/seed.js 3)"
+      "Bash(node src/scripts/seed.js 3)",
+      "Bash(node error-rework-test.js)",
+      "Bash(ps -o pid,lstart,cmd -p 47869)",
+      "Bash(kill 47869 55314)",
+      "Bash(node visitors-test.js)",
+      "Bash(xargs -I{} sh -c 'echo \"== {} ==\"; grep -c \"<input\" {}; grep -c \"autoComplete\\\\|type=\\\\\"file\\\\\"\\\\|type=\\\\\"hidden\\\\\"\" {}')",
+      "Bash(pdftotext fr.subject.pdf -)",
+      "Bash(pip show *)",
+      "Bash(python3 -c \"import sys\")",
+      "Bash(pdftotext fr.subject.pdf /tmp/claude-1000/-home-adv--ssh-42-matcha/c250d854-2c0f-40c5-a750-a51ec755c6ac/scratchpad/subject.txt)",
+      "Bash(echo \"exit:$?\")"
     ],
     "additionalDirectories": [
       "/tmp/claude-1000/-home-adv--ssh-42-matcha/185e320d-1005-4ea2-bd57-530655277040/scratchpad/pw/uploads"

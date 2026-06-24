@@ -18,12 +18,13 @@ export function Layout() {
             <>
               <Link to="/browse">Browse</Link>
               <Link to="/search">Search</Link>
+              <Link to="/visitors">Visitors</Link>
               <Link to="/chat" className="notification-bell">
                 Chat
                 {unreadMessages > 0 && <span className="notification-badge">{unreadMessages}</span>}
               </Link>
               <NotificationBell />
-              <span className="username">{user.username}</span>
+              <Link to="/"><span className="username">{user.username}</span></Link>
               <button type="button" onClick={logout}>Log out</button>
             </>
           ) : (

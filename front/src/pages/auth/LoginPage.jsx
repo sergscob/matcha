@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { useAuth } from "../context/useAuth";
+import { useAuth } from "../../context/useAuth";
+import { Spinner } from "../../components/Spinner";
 
 export function LoginPage() {
   const { login } = useAuth();
@@ -36,17 +37,18 @@ export function LoginPage() {
       <form onSubmit={handleSubmit}>
         <label>
           Username
-          <input type="text" name="username" value={form.username} onChange={handleChange} required />
+          <input type="text" name="username" value={form.username} onChange={handleChange} required autoComplete="username" />
         </label>
 
         <label>
           Password
-          <input type="password" name="password" value={form.password} onChange={handleChange} required />
+          <input type="password" name="password" value={form.password} onChange={handleChange} required autoComplete="current-password" />
         </label>
 
         {error && <p className="error">{error}</p>}
 
         <button type="submit" disabled={submitting}>
+          {submitting && <Spinner />}
           {submitting ? "Logging in..." : "Log in"}
         </button>
       </form>

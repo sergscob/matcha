@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { api } from "../api/client";
 import { TagInput } from "../components/TagInput";
 import { PhotoGrid } from "../components/PhotoGrid";
+import { Spinner } from "../components/Spinner";
 
 const emptyForm = {
   firstName: "",
@@ -36,11 +37,19 @@ export function ProfilePage() {
   const [saving, setSaving] = useState(false);
   const [manualLocation, setManualLocation] = useState("");
   const [locationStatus, setLocationStatus] = useState(null);
+  const [locationPending, setLocationPending] = useState(false);
+  const [loadError, setLoadError] = useState(null);
 
   async function loadProfile() {
-    const data = await api.get("/profile/me");
-    setProfile(data);
-    setForm(toForm(data));
+    setLoadError(null);
+
+    try {
+      const data = await api.get("/profile/me");
+      setProfile(data);
+      setForm(toForm(data));
+    } catch (err) {
+      setLoadError(err.message);
+    }
   }
 
   useEffect(() => {
@@ -85,6 +94,8 @@ export function ProfilePage() {
       return;
     }
 
+    setLocationPending(true);
+
     navigator.geolocation.getCurrentPosition(
       async position => {
         try {
@@ -96,9 +107,14 @@ export function ProfilePage() {
           setLocationStatus(null);
         } catch (err) {
           setLocationStatus(err.message);
+        } finally {
+          setLocationPending(false);
         }
       },
-      () => setLocationStatus("Location permission denied. You can enter your city manually below."),
+      () => {
+        setLocationStatus("Location permission denied. You can enter your city manually below.");
+        setLocationPending(false);
+      },
       { timeout: 10000 }
     );
   }
@@ -106,6 +122,7 @@ export function ProfilePage() {
   async function handleManualLocation(e) {
     e.preventDefault();
     setLocationStatus("Saving...");
+    setLocationPending(true);
 
     try {
       const updated = await api.put("/profile/location/manual", { locationLabel: manualLocation });
@@ -114,7 +131,13 @@ export function ProfilePage() {
       setLocationStatus(null);
     } catch (err) {
       setLocationStatus(err.message);
+    } finally {
+      setLocationPending(false);
     }
+  }
+
+  if (loadError) {
+    return <p className="error">{loadError}</p>;
   }
 
   if (!profile) {
@@ -133,7 +156,10 @@ export function ProfilePage() {
       <section>
         <h2>Location</h2>
         <p className="status">Current: {profile.locationLabel || "not set"}</p>
-        <button type="button" onClick={handleUseLocation}>Use my current location</button>
+        <button type="button" onClick={handleUseLocation} disabled={locationPending}>
+          {locationPending && <Spinner />}
+          Use my current location
+        </button>
         <form onSubmit={handleManualLocation} className="inline-form">
           <input
             type="text"
@@ -141,8 +167,12 @@ export function ProfilePage() {
             value={manualLocation}
             onChange={e => setManualLocation(e.target.value)}
             required
+            autoComplete="off"
           />
-          <button type="submit">Set</button>
+          <button type="submit" disabled={locationPending}>
+            {locationPending && <Spinner />}
+            Set
+          </button>
         </form>
         {locationStatus && <p className="status">{locationStatus}</p>}
       </section>
@@ -153,17 +183,17 @@ export function ProfilePage() {
         <form onSubmit={handleSubmit}>
           <label>
             First name
-            <input type="text" name="firstName" value={form.firstName} onChange={handleChange} required />
+            <input type="text" name="firstName" value={form.firstName} onChange={handleChange} required autoComplete="given-name" />
           </label>
 
           <label>
             Last name
-            <input type="text" name="lastName" value={form.lastName} onChange={handleChange} required />
+            <input type="text" name="lastName" value={form.lastName} onChange={handleChange} required autoComplete="family-name" />
           </label>
 
           <label>
             Email
-            <input type="email" name="email" value={form.email} onChange={handleChange} required />
+            <input type="email" name="email" value={form.email} onChange={handleChange} required autoComplete="email" />
           </label>
 
           <label>
@@ -186,7 +216,7 @@ export function ProfilePage() {
 
           <label>
             Birth date
-            <input type="date" name="birthDate" value={form.birthDate} onChange={handleChange} required />
+            <input type="date" name="birthDate" value={form.birthDate} onChange={handleChange} required autoComplete="bday" />
           </label>
 
           <label>
@@ -202,7 +232,10 @@ export function ProfilePage() {
           {error && <p className="error">{error}</p>}
           {success && <p className="status">{success}</p>}
 
-          <button type="submit" disabled={saving}>{saving ? "Saving..." : "Save profile"}</button>
+          <button type="submit" disabled={saving}>
+            {saving && <Spinner />}
+            {saving ? "Saving..." : "Save profile"}
+          </button>
         </form>
       </section>
 

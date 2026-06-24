@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import avatarSvg from '../assets/avatar.svg';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -8,7 +9,7 @@ export function ProfileCard({ profile }) {
       <div className="discover-card-photo">
         {profile.photoUrl
           ? <img src={`${API_URL}${profile.photoUrl}`} alt="" />
-          : <div className="discover-card-placeholder" />}
+          : <div className="discover-card-placeholder" ><img src={avatarSvg} /></div>}
         {profile.isOnline && <span className="online-dot" title="Online now" />}
       </div>
 
@@ -18,7 +19,7 @@ export function ProfileCard({ profile }) {
           {profile.locationLabel || "Unknown location"}
           {profile.distanceKm != null ? ` · ${profile.distanceKm} km` : ""}
         </span>
-        <span className="status">Popularity {profile.popularityScore} · {profile.commonTags} shared tags</span>
+        <span className="status">Popularity {profile.popularityScore} · {profile.commonTags} common tags</span>
       </div>
     </Link>
   );

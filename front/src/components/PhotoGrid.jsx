@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 
 import { api } from "../api/client";
+import { Spinner } from "./Spinner";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -8,6 +9,7 @@ export function PhotoGrid({ photos, onChange }) {
   const fileInput = useRef(null);
   const [error, setError] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [pendingId, setPendingId] = useState(null);
 
   async function handleFileChange(e) {
     const file = e.target.files[0];
@@ -31,23 +33,29 @@ export function PhotoGrid({ photos, onChange }) {
 
   async function handleDelete(id) {
     setError(null);
+    setPendingId(id);
 
     try {
       await api.delete(`/profile/photos/${id}`);
       onChange();
     } catch (err) {
       setError(err.message);
+    } finally {
+      setPendingId(null);
     }
   }
 
   async function handleSetProfile(id) {
     setError(null);
+    setPendingId(id);
 
     try {
       await api.put(`/profile/photos/${id}/profile`, {});
       onChange();
     } catch (err) {
       setError(err.message);
+    } finally {
+      setPendingId(null);
     }
   }
 
@@ -59,9 +67,15 @@ export function PhotoGrid({ photos, onChange }) {
 
           <div className="photo-actions">
             {!photo.isProfile && (
-              <button type="button" onClick={() => handleSetProfile(photo.id)}>Set as main</button>
+              <button type="button" onClick={() => handleSetProfile(photo.id)} disabled={pendingId === photo.id}>
+                {pendingId === photo.id && <Spinner />}
+                Set as main
+              </button>
             )}
-            <button type="button" onClick={() => handleDelete(photo.id)}>Delete</button>
+            <button type="button" onClick={() => handleDelete(photo.id)} disabled={pendingId === photo.id}>
+              {pendingId === photo.id && <Spinner />}
+              Delete
+            </button>
           </div>
 
           {photo.isProfile && <span className="photo-badge">Main</span>}
@@ -70,6 +84,7 @@ export function PhotoGrid({ photos, onChange }) {
 
       {photos.length < 5 && (
         <button type="button" className="photo-tile add-photo" onClick={() => fileInput.current.click()} disabled={uploading}>
+          {uploading && <Spinner />}
           {uploading ? "Uploading..." : "+ Add photo"}
         </button>
       )}

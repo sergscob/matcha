@@ -1,12 +1,10 @@
-error messages
-tags
-historique de visites - 2 types, avec likes
-link profil
-Si l’utilisateur actuel n’a pas de photo de profil, il ne peut pas effectuer cette action
-Les utilisateurs doivent clairement voir si le profil qu’ils consultent les a « likés » ou s’ils sont déjà « connectés »
+a faire 
+
 webserver
-errors
-images - 5, verifie
-If the sexual orientation isn't specified, the user will be considered bi-sexual.
 Ask the student to explain his strategy to display a list of relevant suggestions.
+
+a verifier
+
 400 -> 200
+error messages
+If the sexual orientation isn't specified, the user will be considered bi-sexual.

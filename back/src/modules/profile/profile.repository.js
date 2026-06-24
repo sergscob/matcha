@@ -172,11 +172,20 @@ export async function setProfilePhoto(photoId, userId) {
 
 export async function getProfileViewers(userId) {
   const result = await pool.query(
-    `SELECT u.id, u.username, MAX(pv.viewed_at) AS viewed_at
+    `SELECT u.id, u.username, u.first_name, u.last_name, u.last_seen,
+       (SELECT file_name FROM photos p WHERE p.user_id = u.id AND p.is_profile = TRUE LIMIT 1) AS profile_photo,
+       MAX(pv.viewed_at) AS viewed_at,
+       EXISTS(SELECT 1 FROM likes WHERE liker_id = u.id AND liked_id = $1) AS liked_me,
+       EXISTS(SELECT 1 FROM likes WHERE liker_id = $1 AND liked_id = u.id) AS liked_by_me
      FROM profile_views pv
      JOIN users u ON u.id = pv.viewer_id
      WHERE pv.viewed_id = $1
-     GROUP BY u.id, u.username
+       AND NOT EXISTS (
+         SELECT 1 FROM blocks
+         WHERE (blocker_id = $1 AND blocked_id = u.id)
+            OR (blocker_id = u.id AND blocked_id = $1)
+       )
+     GROUP BY u.id, u.username, u.first_name, u.last_name, u.last_seen
      ORDER BY viewed_at DESC`,
     [userId]
   );

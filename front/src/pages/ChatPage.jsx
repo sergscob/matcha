@@ -8,10 +8,15 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export function ChatPage() {
   const [conversations, setConversations] = useState(null);
+  const [error, setError] = useState(null);
   const { socket } = useSocket();
 
   const load = useCallback(async () => {
-    setConversations(await api.get("/chat/conversations"));
+    try {
+      setConversations(await api.get("/chat/conversations"));
+    } catch (err) {
+      setError(err.message);
+    }
   }, []);
 
   useEffect(() => {
@@ -24,6 +29,10 @@ export function ChatPage() {
     socket.on("message:new", load);
     return () => socket.off("message:new", load);
   }, [socket, load]);
+
+  if (error) {
+    return <p className="error">{error}</p>;
+  }
 
   if (!conversations) {
     return <p className="status">Loading conversations...</p>;

@@ -6,7 +6,7 @@ export function authMiddleware(req, res, next) {
   const token = req.cookies?.token;
 
   if (!token) {
-    return res.status(401).json({ message: "Unauthorized" });
+    return res.status(200).json({ error: true, message: "Unauthorized" });
   }
 
   try {
@@ -16,7 +16,7 @@ export function authMiddleware(req, res, next) {
     touchLastSeen(req.userId).catch(() => {});
     next();
   } catch {
-    return res.status(401).json({ message: "Invalid token" });
+    return res.status(200).json({ error: true, message: "Invalid token" });
   }
 }
 

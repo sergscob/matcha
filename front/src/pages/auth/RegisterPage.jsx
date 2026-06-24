@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-import { api } from "../api/client";
+import { api } from "../../api/client";
+import { Spinner } from "../../components/Spinner";
 
 const initialForm = { email: "", username: "", firstName: "", lastName: "", password: "" };
 
@@ -21,23 +22,10 @@ export function RegisterPage() {
     setSubmitting(true);
 
     try {
-      const response = await api.post("/auth/register", form);
-      console.log(response)
+      await api.post("/auth/register", form);
       setRegisteredEmail(form.email);
     } catch (err) {
-      let str = err.message
-        console.dir(err)
-        console.log(err.data)
-        console.log(err.message)
-        for (const s in err)
-          console.log(s)
-
-      if (err.issues) {
-        console.log(err.issues)
-        str += ': ' + err.issues.map(el=>el.message).join(',')
-      }
-      setError(str);
-      
+      setError(err.message);
     } finally {
       setSubmitting(false);
     }
@@ -60,32 +48,33 @@ export function RegisterPage() {
       <form onSubmit={handleSubmit}>
         <label>
           Email
-          <input type="email" name="email" value={form.email} onChange={handleChange} required />
+          <input type="email" name="email" value={form.email} onChange={handleChange} required autoComplete="email" />
         </label>
 
         <label>
           Username
-          <input type="text" name="username" value={form.username} onChange={handleChange} minLength={3} maxLength={30} required />
+          <input type="text" name="username" value={form.username} onChange={handleChange} minLength={3} maxLength={30} required autoComplete="username" />
         </label>
 
         <label>
           First name
-          <input type="text" name="firstName" value={form.firstName} onChange={handleChange} required />
+          <input type="text" name="firstName" value={form.firstName} onChange={handleChange} required autoComplete="given-name" />
         </label>
 
         <label>
           Last name
-          <input type="text" name="lastName" value={form.lastName} onChange={handleChange} required />
+          <input type="text" name="lastName" value={form.lastName} onChange={handleChange} required autoComplete="family-name" />
         </label>
 
         <label>
           Password
-          <input type="password" name="password" value={form.password} onChange={handleChange} minLength={8} required />
+          <input type="password" name="password" value={form.password} onChange={handleChange} minLength={8} required autoComplete="new-password" />
         </label>
 
         {error && <p className="error">{error}</p>}
 
         <button type="submit" disabled={submitting}>
+          {submitting && <Spinner />}
           {submitting ? "Creating account..." : "Sign up"}
         </button>
       </form>

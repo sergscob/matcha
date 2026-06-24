@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { api } from "../api/client";
+import { Spinner } from "../components/Spinner";
 
 const TYPE_LABELS = {
   like: "liked you",
@@ -13,9 +14,17 @@ const TYPE_LABELS = {
 
 export function NotificationsPage() {
   const [notifications, setNotifications] = useState(null);
+  const [error, setError] = useState(null);
+  const [markingRead, setMarkingRead] = useState(false);
 
   async function load() {
-    setNotifications(await api.get("/notifications"));
+    setError(null);
+
+    try {
+      setNotifications(await api.get("/notifications"));
+    } catch (err) {
+      setError(err.message);
+    }
   }
 
   useEffect(() => {
@@ -23,8 +32,20 @@ export function NotificationsPage() {
   }, []);
 
   async function handleMarkAllRead() {
-    await api.post("/notifications/read-all");
-    load();
+    setMarkingRead(true);
+
+    try {
+      await api.post("/notifications/read-all");
+      await load();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setMarkingRead(false);
+    }
+  }
+
+  if (error) {
+    return <p className="error">{error}</p>;
   }
 
   if (!notifications) {
@@ -36,7 +57,10 @@ export function NotificationsPage() {
       <h1>Notifications</h1>
 
       {notifications.length > 0 && (
-        <button type="button" onClick={handleMarkAllRead}>Mark all as read</button>
+        <button type="button" onClick={handleMarkAllRead} disabled={markingRead}>
+          {markingRead && <Spinner />}
+          Mark all as read
+        </button>
       )}
 
       {notifications.length === 0 && <p className="status">No notifications yet.</p>}
