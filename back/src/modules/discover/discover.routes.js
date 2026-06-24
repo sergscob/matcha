@@ -3,6 +3,7 @@ import { Router } from "express";
 import {
   suggestedController,
   searchController,
+  mapController,
   profileDetailController,
   likeController,
   unlikeController,
@@ -21,6 +22,7 @@ router.use(authMiddleware);
 // "/suggested" and "/search" would be swallowed as an :id value.
 router.get("/suggested", suggestedController);
 router.get("/search", searchController);
+router.get("/map", mapController);
 
 router.get("/:id", profileDetailController);
 router.post("/:id/like", likeController);

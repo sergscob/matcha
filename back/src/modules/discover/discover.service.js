@@ -39,6 +39,27 @@ function toCard(row) {
   };
 }
 
+function toMapPoint(row) {
+  return {
+    id: row.id,
+    firstName: row.first_name,
+    age: row.age != null ? Number(row.age) : null,
+    locationLabel: row.location_label,
+    popularityScore: row.popularity_score,
+    photoUrl: row.profile_photo ? `/uploads/${row.profile_photo}` : null,
+    isOnline: isOnline(row.last_seen),
+    latitude: row.latitude,
+    longitude: row.longitude
+  };
+}
+
+export async function getMapProfiles(viewerId, filters) {
+  const viewer = await getUserById(viewerId);
+  const rows = await queryProfiles(viewer, { ...filters, applyOrientationFilter: true, limit: 200, offset: 0 });
+
+  return rows.filter(row => row.latitude != null).map(toMapPoint);
+}
+
 export async function getSuggestedProfiles(viewerId, filters) {
   const viewer = await getUserById(viewerId);
   const rows = await queryProfiles(viewer, { ...filters, applyOrientationFilter: true });

@@ -14,6 +14,7 @@ import { ProfileDetailPage } from "./pages/ProfileDetailPage";
 import { NotificationsPage } from "./pages/NotificationsPage";
 import { BrowsePage } from "./pages/BrowsePage";
 import { SearchPage } from "./pages/SearchPage";
+import { MapPage } from "./pages/MapPage";
 import { ChatPage } from "./pages/ChatPage";
 import { ChatConversationPage } from "./pages/ChatConversationPage";
 import { VisitorsPage } from "./pages/VisitorsPage";
@@ -36,6 +37,7 @@ export default function App() {
               <Route path="notifications" element={<ProtectedRoute><NotificationsPage /></ProtectedRoute>} />
               <Route path="browse" element={<ProtectedRoute><BrowsePage /></ProtectedRoute>} />
               <Route path="search" element={<ProtectedRoute><SearchPage /></ProtectedRoute>} />
+              <Route path="map" element={<ProtectedRoute><MapPage /></ProtectedRoute>} />
               <Route path="chat" element={<ProtectedRoute><ChatPage /></ProtectedRoute>} />
               <Route path="chat/:id" element={<ProtectedRoute><ChatConversationPage /></ProtectedRoute>} />
               <Route path="visitors" element={<ProtectedRoute><VisitorsPage /></ProtectedRoute>} />

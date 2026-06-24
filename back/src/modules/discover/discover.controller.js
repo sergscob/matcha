@@ -1,8 +1,9 @@
-import { discoverQuerySchema } from "./discover.validation.js";
+import { discoverQuerySchema, discoverMapQuerySchema } from "./discover.validation.js";
 
 import {
   getSuggestedProfiles,
   getSearchProfiles,
+  getMapProfiles,
   getProfileDetail,
   likeUser,
   unlikeUser,
@@ -11,8 +12,8 @@ import {
   reportUser
 } from "./discover.service.js";
 
-function parseFilters(query) {
-  const data = discoverQuerySchema.parse(query);
+function parseFilters(query, schema = discoverQuerySchema) {
+  const data = schema.parse(query);
 
   return {
     ...data,
@@ -28,6 +29,10 @@ export async function suggestedController(req, res) {
 
 export async function searchController(req, res) {
   res.json(await getSearchProfiles(req.userId, parseFilters(req.query)));
+}
+
+export async function mapController(req, res) {
+  res.json(await getMapProfiles(req.userId, parseFilters(req.query, discoverMapQuerySchema)));
 }
 
 export async function profileDetailController(req, res) {

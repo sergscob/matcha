@@ -12,3 +12,5 @@ export const discoverQuerySchema = z.object({
   limit: z.coerce.number().int().min(1).max(50).optional(),
   offset: z.coerce.number().int().min(0).optional()
 });
+
+export const discoverMapQuerySchema = discoverQuerySchema.omit({ sortBy: true, sortOrder: true, limit: true, offset: true });

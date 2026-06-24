@@ -488,6 +488,46 @@ textarea {
   font-size: 0.8rem;
 }
 
+.map-container {
+  height: 70vh;
+  min-height: 400px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.map-popup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 140px;
+}
+
+.map-popup img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.map-marker-dot,
+.map-marker-viewer {
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+}
+
+.map-marker-dot {
+  width: 16px;
+  height: 16px;
+  background: #e8590c;
+}
+
+.map-marker-viewer {
+  width: 18px;
+  height: 18px;
+  background: #1971c2;
+}
+
 .chat-list-card,
 .chat-thread-card {
   max-width: 560px;

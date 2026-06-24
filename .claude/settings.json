@@ -18,7 +18,9 @@
       "Bash(pip show *)",
       "Bash(python3 -c \"import sys\")",
       "Bash(pdftotext fr.subject.pdf /tmp/claude-1000/-home-adv--ssh-42-matcha/c250d854-2c0f-40c5-a750-a51ec755c6ac/scratchpad/subject.txt)",
-      "Bash(echo \"exit:$?\")"
+      "Bash(echo \"exit:$?\")",
+      "Bash(node -e \"require\\('playwright'\\); console.log\\('ok'\\)\")",
+      "Bash(node test_map.js)"
     ],
     "additionalDirectories": [
       "/tmp/claude-1000/-home-adv--ssh-42-matcha/185e320d-1005-4ea2-bd57-530655277040/scratchpad/pw/uploads"
