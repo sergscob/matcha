@@ -167,46 +167,47 @@ export function ProfileDetailPage() {
         </button>
       </div>
 
-      <div className="profile-actions-row">
-        {profile.isConnected && (
-          <button type="button" onClick={() => setShowMeetupForm(show => !show)}>
-            {showMeetupForm ? "Cancel" : "Schedule a meetup"}
-          </button>
+      <div className="profile-meetup">
+        <div className="_profile-actions-row">
+          {profile.isConnected && (
+            <button type="button" onClick={() => { setShowMeetupForm(show => !show); setMessage(null) }}>
+              {showMeetupForm ? "Cancel" : "Schedule a meetup"}
+            </button>
+          )}
+        </div>
+
+        {showMeetupForm && (
+          <form className="filters meetup-form" onSubmit={handleProposeMeetup}>
+            <label>
+              Where
+              <input
+                type="text"
+                value={meetupForm.locationLabel}
+                onChange={e => setMeetupForm({ ...meetupForm, locationLabel: e.target.value })}
+                placeholder="Café de Flore"
+                maxLength={255}
+                required
+              />
+            </label>
+
+            <label>
+              When
+              <input
+                type="datetime-local"
+                value={meetupForm.scheduledAt}
+                onChange={e => setMeetupForm({ ...meetupForm, scheduledAt: e.target.value })}
+                required
+              />
+            </label>
+
+            <button type="submit" disabled={Boolean(pendingAction)}>
+              {pendingAction === "meetup" && <Spinner />}
+              Send invite
+            </button>
+          </form>
         )}
-      </div>
-
-      {showMeetupForm && (
-        <form className="filters meetup-form" onSubmit={handleProposeMeetup}>
-          <label>
-            Where
-            <input
-              type="text"
-              value={meetupForm.locationLabel}
-              onChange={e => setMeetupForm({ ...meetupForm, locationLabel: e.target.value })}
-              placeholder="Café de Flore"
-              maxLength={255}
-              required
-            />
-          </label>
-
-          <label>
-            When
-            <input
-              type="datetime-local"
-              value={meetupForm.scheduledAt}
-              onChange={e => setMeetupForm({ ...meetupForm, scheduledAt: e.target.value })}
-              required
-            />
-          </label>
-
-          <button type="submit" disabled={Boolean(pendingAction)}>
-            {pendingAction === "meetup" && <Spinner />}
-            Send invite
-          </button>
-        </form>
-      )}
-
         {message && <p className="status">{message}</p>}
+      </div>
     </div>
   );
 }

@@ -193,6 +193,13 @@ textarea {
   margin-bottom: 0.75rem;
 }
 
+.profile-meetup {
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  padding: 0.75rem;
+  margin-top: 1rem;
+}
+
 .inline-form {
   display: flex;
   flex-direction: row;
