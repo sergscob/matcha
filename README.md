@@ -10,6 +10,7 @@ make back     # start postgres (docker) + backend dev server
 make front    # start frontend dev server
 make seed     # seed the DB with fake profiles (postgres must be up)
 make prod     # docker-compose up --build, full stack
+make all      
 ```
 
 ## Database schema

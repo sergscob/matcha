@@ -148,7 +148,7 @@ export function ProfilePage() {
   return (
     <div className="card profile-card">
       <h1>Your profile</h1>
-
+      <h2>Login: {profile.username}</h2>
       <section>
         <h2>Photos</h2>
         <PhotoGrid photos={profile.photos} onChange={loadProfile} />

@@ -33,11 +33,12 @@ export function SocketProvider({ children }) {
       return;
     }
 
-    // StrictMode's dev-only mount->cleanup->remount happens synchronously,
-    // before this deferred disconnect's timer ever fires, so it cancels out
-    // and reuses the same socket instead of opening a second connection and
-    // immediately tearing down the first mid-handshake (which otherwise logs
-    // a native "WebSocket closed before connection established" warning).
+    // защита от React StrictMode в dev: эффекты в dev маунтятся как mount→cleanup→mount синхронно. 
+    // Если бы cleanup сразу звал socket.disconnect(), второй mount открывал бы НОВЫЙ сокет, 
+    // пока первый ещё не завершил отключение — в консоли вылетает "WebSocket closed before connection established". 
+    // Поэтому disconnect откладывается на setTimeout(..., 0); если remount произошёл синхронно (StrictMode), 
+    // clearTimeout его гасит, и переиспользуется тот же сокет — реальный disconnect происходит 
+    // при настоящем размонтировании (логаут/закрытие таба).
     if (pendingDisconnectRef.current) {
       clearTimeout(pendingDisconnectRef.current);
       pendingDisconnectRef.current = null;
@@ -58,8 +59,6 @@ export function SocketProvider({ children }) {
   useEffect(() => {
     if (!socket) return;
 
-    // also fires on reconnect, which resyncs counts in case events were
-    // missed while disconnected
     socket.on("connect", refreshCounts);
     socket.on("notification:new", () => setUnreadNotifications(c => c + 1));
     socket.on("message:new", refreshCounts);
