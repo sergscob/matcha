@@ -10,7 +10,7 @@ const emptyForm = {
   lastName: "",
   email: "",
   gender: "",
-  sexualOrientation: "bisexual",
+  sexualOrientation: "",
   bio: "",
   birthDate: "",
   tags: []
@@ -22,7 +22,7 @@ function toForm(data) {
     lastName: data.lastName,
     email: data.email,
     gender: data.gender || "",
-    sexualOrientation: data.sexualOrientation,
+    sexualOrientation: data.sexualOrientation || "",
     bio: data.bio || "",
     birthDate: data.birthDate || "",
     tags: data.tags
@@ -69,6 +69,7 @@ export function ProfilePage() {
     try {
       const payload = { ...form };
       if (!payload.gender) delete payload.gender;
+      if (!payload.sexualOrientation) delete payload.sexualOrientation;
       if (!payload.birthDate) delete payload.birthDate;
 
       const updated = await api.patch("/profile/me", payload);

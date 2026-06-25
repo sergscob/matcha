@@ -5,9 +5,9 @@ services:
     restart: unless-stopped
 
     environment:
-      POSTGRES_DB: matcha
-      POSTGRES_USER: matcha
-      POSTGRES_PASSWORD: matcha
+      POSTGRES_DB: ${POSTGRES_DB:-matcha}
+      POSTGRES_USER: ${POSTGRES_USER:-matcha}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-matcha}
 
     ports:
       - "5432:5432"
@@ -19,8 +19,8 @@ services:
     image: dpage/pgadmin4
 
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@admin.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
 
     ports:
       - "5050:80"
@@ -35,7 +35,7 @@ services:
 
     environment:
       NODE_ENV: production
-      DATABASE_URL: postgres://matcha:matcha@postgres:5432/matcha
+      DATABASE_URL: postgres://${POSTGRES_USER:-matcha}:${POSTGRES_PASSWORD:-matcha}@postgres:5432/${POSTGRES_DB:-matcha}
       CORS_ORIGIN: http://localhost
       FRONTEND_URL: http://localhost
       COOKIE_SECURE: "false"

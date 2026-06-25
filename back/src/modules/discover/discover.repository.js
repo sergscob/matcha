@@ -99,6 +99,11 @@ export async function recordProfileView(viewerId, viewedId) {
   );
 }
 
+
+// "умный" рейтинг, два уровня:
+// сначала те, кто в радиусе 50 км (distance_km <= 50) — единичный приоритетный бакет
+// внутри—по формуле: common_tags × 15 + popularity − COALESCE(distance_km, 500)
+
 export async function queryProfiles(viewer, options) {
   const {
     applyOrientationFilter,
@@ -130,26 +135,12 @@ export async function queryProfiles(viewer, options) {
     const genderIdx = params.length - 1;
     const orientationIdx = params.length;
 
-    // conditions.push(`
-    //   (
-    //     $${orientationIdx} = 'bisexual' 
-    //     OR ($${orientationIdx} = 'heterosexual' AND u.gender != $${genderIdx})
-    //     OR ($${orientationIdx} = 'homosexual' AND u.gender = $${genderIdx})
-    //   )
-    //   AND
-    //   (
-    //     u.sexual_orientation = 'bisexual' 
-    //     OR (u.sexual_orientation = 'heterosexual' AND u.gender != $${genderIdx})
-    //     OR (u.sexual_orientation = 'homosexual' AND u.gender = $${genderIdx})
-    //   )
-    // `);
-
     conditions.push(`
       (
         CASE COALESCE($${orientationIdx}, 'bisexual')
           WHEN 'bisexual' THEN TRUE
-          WHEN 'heterosexual' THEN u.gender != $${genderIdx}
-          WHEN 'homosexual' THEN u.gender = $${genderIdx}
+          WHEN 'heterosexual' THEN $${genderIdx}::varchar IS NULL OR u.gender != $${genderIdx}
+          WHEN 'homosexual' THEN $${genderIdx}::varchar IS NULL OR u.gender = $${genderIdx}
           ELSE TRUE
         END
       )
@@ -157,14 +148,12 @@ export async function queryProfiles(viewer, options) {
       (
         CASE COALESCE(u.sexual_orientation, 'bisexual')
           WHEN 'bisexual' THEN TRUE
-          WHEN 'heterosexual' THEN u.gender != $${genderIdx}
-          WHEN 'homosexual' THEN u.gender = $${genderIdx}
+          WHEN 'heterosexual' THEN $${genderIdx}::varchar IS NULL OR u.gender != $${genderIdx}
+          WHEN 'homosexual' THEN $${genderIdx}::varchar IS NULL OR u.gender = $${genderIdx}
           ELSE TRUE
         END
       )
     `);
-
-
   }
 
   if (ageMin !== undefined) {
@@ -206,9 +195,6 @@ export async function queryProfiles(viewer, options) {
   params.push(viewer.id);
   const commonTagsIdx = params.length;
 
-  // explicit cast: an untyped NULL literal defaults to "text" in Postgres,
-  // which then fails type checks wherever distance_km is used numerically
-  // (e.g. the smart-ranking CASE/arithmetic, or sortBy=location)
   let distanceExpr = "NULL::double precision";
   if (viewer.latitude != null && viewer.longitude != null) {
     params.push(viewer.latitude, viewer.longitude);
