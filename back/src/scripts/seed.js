@@ -8,7 +8,7 @@ import { pool } from "../config/db.js";
 import { hashPassword } from "../utils/password.js";
 
 const SEED_EMAIL_DOMAIN = "seed.example.com";
-const SEED_PASSWORD = "Matcha-Seed1!";
+const SEED_PASSWORD = "MatchaUser1!";
 const UPLOADS_DIR = path.resolve("uploads");
 const PROFILE_PHOTO_RATE = 0.75;
 
@@ -99,7 +99,7 @@ async function seedUser(index, passwordHash, tagIds) {
   const firstName = faker.person.firstName(gender);
   const lastName = faker.person.lastName();
   const slug = faker.helpers.slugify(`${firstName}_${lastName}`).toLowerCase().slice(0, 25);
-  const username = `seed_${slug}_${index}`;
+  const username = index ? `seed_${slug}_${index}` : "user1";
   console.log( username)
   const email = `${username}@${SEED_EMAIL_DOMAIN}`;
   const city = faker.helpers.arrayElement(CITIES);

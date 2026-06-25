@@ -1,18 +1,20 @@
 .PHONY: all prod prod-https back front i-back i-front i back-admin
 
-ENGINE ?= docker
+ENGINE ?= podman
 COMPOSE := $(ENGINE)-compose
 
 all:
-	$(MAKE) back &
-	$(MAKE) front &
+	$(MAKE) i-back
+	$(MAKE) i-front
+	$(COMPOSE) up postgres -d
+	(cd back && npm run migrate && npm run seed:if-empty && npm run dev) & (cd front && npm run dev)
 	wait
 
 prod:
 	$(COMPOSE) up --build -d
 
 back:
-	$(COMPOSE) up postgres -d && cd back && npm run dev
+	$(COMPOSmake E) up postgres -d && cd back && npm run dev
 
 front:
 	cd front && npm run dev
@@ -26,6 +28,7 @@ i-front:
 i:
 	$(MAKE) i-back
 	$(MAKE) i-front
+
 
 seed:
 	$(COMPOSE) up postgres -d && cd back && npm run seed 500
@@ -51,3 +54,6 @@ fclear:
 	$(MAKE) clearports
 	$(MAKE) clearback
 	$(MAKE) clearfront
+	rm -rf back/uploads
+	$(ENGINE) volume rm matcha_postgres_data
+	$(ENGINE) volume rm matcha_postgres_data
