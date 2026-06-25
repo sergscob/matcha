@@ -152,7 +152,9 @@ export function ProfilePage() {
         <h2>Photos</h2>
         <PhotoGrid photos={profile.photos} onChange={loadProfile} />
       </section>
-
+      <section>
+        <h2>Popularity score: {profile.popularityScore}</h2>
+      </section>
       <section>
         <h2>Location</h2>
         <p className="status">Current: {profile.locationLabel || "not set"}</p>
@@ -231,20 +233,16 @@ export function ProfilePage() {
             <TagInput tags={form.tags} onChange={tags => setForm({ ...form, tags })} />
           </label>
 
-          {error && <p className="error">{error}</p>}
-          {success && <p className="status">{success}</p>}
 
           <button type="submit" disabled={saving}>
             {saving && <Spinner />}
             {saving ? "Saving..." : "Save profile"}
           </button>
+          {error && <p className="error">{error}</p>}
+          {success && <p className="status ok">{success}</p>}
         </form>
       </section>
 
-      <section>
-        <h2>Popularity score</h2>
-        <p className="status">{profile.popularityScore}</p>
-      </section>
     </div>
   );
 }

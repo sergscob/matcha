@@ -175,6 +175,11 @@ textarea {
   color: #c92a2a;
   font-weight: bold;
 }
+.status.ok {
+  color: #2f9e44;
+  font-weight: bold;
+}
+
 
 .profile-card {
   max-width: 640px;
