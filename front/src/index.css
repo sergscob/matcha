@@ -587,6 +587,24 @@ textarea {
   max-width: 560px;
 }
 
+.chat-header {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  margin: 15px;
+  padding: 1px 10px;
+  border: 5px solid #fbe3ec;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.chat-header-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .conversation-list {
   list-style: none;
   padding: 0;

@@ -125,7 +125,7 @@ export function ProfileDetailPage() {
         {}
         {profile.gender=='female' ? "F" : profile.gender=='male' ? "M" : "?"}
         {" · "}
-        {profile.sexualOrientation=='bisexual' ? "bisexual" : 
+        {profile.sexualOrientation=='bisexual' ? "bisexual" :
           profile.sexualOrientation=='heterosexual' ? "heterosexual" : profile.sexualOrientation=='homosexual' ? "homosexual" : "?"}
       </p>
       <p className="status">
@@ -167,6 +167,7 @@ export function ProfileDetailPage() {
         </button>
       </div>
 
+    {profile.isConnected &&
       <div className="profile-meetup">
         <div className="_profile-actions-row">
           {profile.isConnected && (
@@ -208,6 +209,7 @@ export function ProfileDetailPage() {
         )}
         {message && <p className="status">{message}</p>}
       </div>
+    }
     </div>
   );
 }

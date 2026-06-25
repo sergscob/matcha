@@ -1,5 +1,6 @@
 .PHONY: all prod prod-https back front i-back i-front i back-admin
 
+
 ENGINE ?= podman
 COMPOSE := $(ENGINE)-compose
 
@@ -54,6 +55,7 @@ fclear:
 	$(MAKE) clearports
 	$(MAKE) clearback
 	$(MAKE) clearfront
+
 	rm -rf back/uploads
 	($(ENGINE) volume rm matcha_postgres_data) || exit 0
 	($(ENGINE) volume rm matcha_uploads_data) || exit 0
