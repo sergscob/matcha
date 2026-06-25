@@ -7,6 +7,7 @@ all:
 	$(MAKE) i-back
 	$(MAKE) i-front
 	$(COMPOSE) up postgres -d
+	@sleep 5
 	(cd back && npm run migrate && npm run seed:if-empty && npm run dev) & (cd front && npm run dev)
 	wait
 
@@ -54,5 +55,6 @@ fclear:
 	$(MAKE) clearback
 	$(MAKE) clearfront
 	rm -rf back/uploads
-	$(ENGINE) volume rm matcha_postgres_data
-	$(ENGINE) volume rm matcha_postgres_data
+	($(ENGINE) volume rm matcha_postgres_data) || exit 0
+	($(ENGINE) volume rm matcha_uploads_data) || exit 0
+	@echo "Cleaned"
