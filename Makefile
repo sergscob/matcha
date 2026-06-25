@@ -1,7 +1,5 @@
-
 .PHONY: all prod prod-https back front i-back i-front i back-admin
 
-# Switch container engine with `make ENGINE=podman ...`, or change the default here.
 ENGINE ?= docker
 COMPOSE := $(ENGINE)-compose
 

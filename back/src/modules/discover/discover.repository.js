@@ -99,17 +99,6 @@ export async function recordProfileView(viewerId, viewedId) {
   );
 }
 
-/**
- * Shared query backing both the "suggested profiles" (browsing) and
- * "advanced search" features. The only structural difference between them
- * is whether sexual-orientation compatibility is enforced as a hard filter
- * (browsing) or left out (search, which is driven purely by the user's
- * explicit criteria per the subject's IV.4).
- *
- * Default ordering ("smart" ranking, used when no explicit sortBy is given):
- * same-area users first (distance <= 50km), then by a composite score of
- * shared tags (weighted heaviest), popularity, and proximity.
- */
 export async function queryProfiles(viewer, options) {
   const {
     applyOrientationFilter,
