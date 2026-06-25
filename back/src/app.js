@@ -12,6 +12,7 @@ import profileRoutes from "./modules/profile/profile.routes.js";
 import discoverRoutes from "./modules/discover/discover.routes.js";
 import notificationsRoutes from "./modules/notifications/notifications.routes.js";
 import chatRoutes from "./modules/chat/chat.routes.js";
+import meetupsRoutes from "./modules/meetups/meetups.routes.js";
 import { initSocket } from "./realtime/socket.js";
 import { notFoundHandler, errorHandler } from "./middleware/error.middleware.js";
 
@@ -44,6 +45,7 @@ app.use("/profile", profileRoutes);
 app.use("/discover", discoverRoutes);
 app.use("/notifications", notificationsRoutes);
 app.use("/chat", chatRoutes);
+app.use("/meetups", meetupsRoutes);
 
 app.use(notFoundHandler);
 app.use(errorHandler);

@@ -27,10 +27,46 @@
       "Bash(python3 -c ' *)",
       "Bash(docker run *)",
       "Bash(curl -s -o /dev/null -w \"status:%{http_code} size:%{size_download}\\\\n\" \"http://localhost/uploads/86f1c93d3c07cb09eff6db7ab59971d3.png\")",
-      "Bash(node test_docker_stack.js)"
+      "Bash(node test_docker_stack.js)",
+      "Bash(sed -n '1,260p' /home/adv/.ssh/42/matcha/back/db/migrations/*.sql | grep -n \"CREATE TABLE\\\\|CHECK\\\\|type\\\\|ENUM\" )",
+      "Bash(xargs ls)",
+      "Bash(node --input-type=module -e ' *)",
+      "Bash(docker compose *)",
+      "Bash(docker exec *)",
+      "Bash(curl -s -c alice.txt -X POST http://localhost:3000/auth/login -H \"Content-Type: application/json\" -d '{\"username\":\"alice_meetup_t\",\"password\":\"Sup3rSecret!9\"}')",
+      "Bash(curl -s -c bob.txt -X POST http://localhost:3000/auth/login -H \"Content-Type: application/json\" -d '{\"username\":\"bob_meetup_t\",\"password\":\"Sup3rSecret!9\"}')",
+      "Bash(curl -s http://localhost:3001/meetups)",
+      "Bash(curl -s -c alice.txt -X POST http://localhost:3001/auth/login -H \"Content-Type: application/json\" -d '{\"username\":\"alice_meetup_t\",\"password\":\"Sup3rSecret!9\"}')",
+      "Bash(curl -s -c bob.txt -X POST http://localhost:3001/auth/login -H \"Content-Type: application/json\" -d '{\"username\":\"bob_meetup_t\",\"password\":\"Sup3rSecret!9\"}')",
+      "Bash(curl -s -b alice.txt -X PATCH http://localhost:3001/meetups/1/accept)",
+      "Bash(curl -s -b bob.txt -X PATCH http://localhost:3001/meetups/1/accept)",
+      "Bash(curl -s -b alice.txt http://localhost:3001/notifications)",
+      "Bash(curl -s -b alice.txt -X PATCH http://localhost:3001/meetups/1/cancel)",
+      "Bash(curl -s -b bob.txt http://localhost:3001/notifications)",
+      "Bash(curl -s -b alice.txt -X POST http://localhost:3001/meetups/610 -H \"Content-Type: application/json\" -d '{\"locationLabel\":\"x\",\"scheduledAt\":\"2026-07-01T18:00\"}')",
+      "Bash(curl -s -b alice.txt -X POST http://localhost:3001/meetups/89 -H \"Content-Type: application/json\" -d '{\"locationLabel\":\"x\",\"scheduledAt\":\"2026-07-01T18:00\"}')",
+      "Bash(curl -s -b alice.txt -X POST http://localhost:3001/meetups/611 -H \"Content-Type: application/json\" -d '{\"locationLabel\":\"x\",\"scheduledAt\":\"2020-01-01T18:00\"}')",
+      "Bash(npx --no-install playwright --version)",
+      "Bash(echo \"exit code: $?\")",
+      "Bash(curl -s \"http://localhost:5173/src/components/DiscoverList.jsx\")",
+      "Bash(curl -s -X POST http://localhost:3000/auth/register -H 'Content-Type: application/json' -d '{\"email\":\"qa.search.test@example.com\",\"username\":\"qa_search_t\",\"firstName\":\"Qa\",\"lastName\":\"Test\",\"password\":\"Sup3rSecret!9\"}')",
+      "Bash(curl -s -c qa.txt -X POST http://localhost:3000/auth/login -H \"Content-Type: application/json\" -d '{\"username\":\"qa_search_t\",\"password\":\"Sup3rSecret!9\"}')",
+      "Bash(curl -s -b qa.txt \"http://localhost:3000/discover/search?location=Paris&limit=20&offset=0\")",
+      "Bash(docker volume *)",
+      "Bash(python3 -m json.tool)",
+      "Bash(docker restart *)",
+      "Bash(docker rmi *)",
+      "Bash(docker-compose version *)",
+      "Bash(podman --version)",
+      "Bash(podman-compose --version)",
+      "Bash(podman compose *)",
+      "Bash(make -n prod)",
+      "Bash(make -n ENGINE=podman prod)",
+      "Bash(make -n fclear)"
     ],
     "additionalDirectories": [
-      "/tmp/claude-1000/-home-adv--ssh-42-matcha/185e320d-1005-4ea2-bd57-530655277040/scratchpad/pw/uploads"
+      "/tmp/claude-1000/-home-adv--ssh-42-matcha/185e320d-1005-4ea2-bd57-530655277040/scratchpad/pw/uploads",
+      "/home/adv/.ssh/42/matcha/back/db/migrations"
     ]
   }
 }

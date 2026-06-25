@@ -13,6 +13,8 @@ export function ProfileDetailPage() {
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
   const [pendingAction, setPendingAction] = useState(null);
+  const [showMeetupForm, setShowMeetupForm] = useState(false);
+  const [meetupForm, setMeetupForm] = useState({ locationLabel: "", scheduledAt: "" });
 
   const load = useCallback(async () => {
     setError(null);
@@ -58,6 +60,23 @@ export function ProfileDetailPage() {
     }
   }
 
+  async function handleProposeMeetup(e) {
+    e.preventDefault();
+    setPendingAction("meetup");
+    setMessage(null);
+
+    try {
+      await api.post(`/meetups/${id}`, meetupForm);
+      setMessage("Meetup proposed! Track it on the Meetups page.");
+      setShowMeetupForm(false);
+      setMeetupForm({ locationLabel: "", scheduledAt: "" });
+    } catch (err) {
+      setMessage(err.message);
+    } finally {
+      setPendingAction(null);
+    }
+  }
+
   async function handleReport() {
     setPendingAction("report");
     setMessage(null);
@@ -96,6 +115,14 @@ export function ProfileDetailPage() {
       </h1>
 
       <p className="status">
+        {
+    //          profile.birth_date ? "Born " + profile.birth_date.split('-')[2]+'/'+profile.birth_date.split('-')[1] + '/' + profile.birth_date.split('-')[0]: null
+        }
+        {
+          profile.age ? profile.age + " years · " : null
+        }
+
+        {}
         {profile.gender=='female' ? "F" : profile.gender=='male' ? "M" : "?"}
         {" · "}
         {profile.sexualOrientation=='bisexual' ? "bisexual" : 
@@ -139,6 +166,46 @@ export function ProfileDetailPage() {
           Report fake account
         </button>
       </div>
+
+      <div className="profile-actions-row">
+        {profile.isConnected && (
+          <button type="button" onClick={() => setShowMeetupForm(show => !show)}>
+            {showMeetupForm ? "Cancel" : "Schedule a meetup"}
+          </button>
+        )}
+      </div>
+
+      {showMeetupForm && (
+        <form className="filters meetup-form" onSubmit={handleProposeMeetup}>
+          <label>
+            Where
+            <input
+              type="text"
+              value={meetupForm.locationLabel}
+              onChange={e => setMeetupForm({ ...meetupForm, locationLabel: e.target.value })}
+              placeholder="Café de Flore"
+              maxLength={255}
+              required
+            />
+          </label>
+
+          <label>
+            When
+            <input
+              type="datetime-local"
+              value={meetupForm.scheduledAt}
+              onChange={e => setMeetupForm({ ...meetupForm, scheduledAt: e.target.value })}
+              required
+            />
+          </label>
+
+          <button type="submit" disabled={Boolean(pendingAction)}>
+            {pendingAction === "meetup" && <Spinner />}
+            Send invite
+          </button>
+        </form>
+      )}
+
         {message && <p className="status">{message}</p>}
     </div>
   );

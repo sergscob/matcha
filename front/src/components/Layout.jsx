@@ -20,6 +20,7 @@ export function Layout() {
               <Link to="/search">Search</Link>
               <Link to="/map">Map</Link>
               <Link to="/visitors">Visitors</Link>
+              <Link to="/meetups">Meetups</Link>
               <Link to="/chat" className="notification-bell">
                 Chat
                 {unreadMessages > 0 && <span className="notification-badge">{unreadMessages}</span>}

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 import { api } from "../api/client";
 import { ProfileCard } from "./ProfileCard";
@@ -17,8 +18,24 @@ const initialFilters = {
   sortOrder: ""
 };
 
+function filtersFromParams(searchParams) {
+  const result = { ...initialFilters };
+
+  for (const key of Object.keys(initialFilters)) {
+    const value = searchParams.get(key);
+    if (value !== null) result[key] = value;
+  }
+
+  return result;
+}
+
+function toQueryObject(activeFilters) {
+  return Object.fromEntries(Object.entries(activeFilters).filter(([, value]) => value !== ""));
+}
+
 export function DiscoverList({ endpoint }) {
-  const [filters, setFilters] = useState(initialFilters);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [filters, setFilters] = useState(() => filtersFromParams(searchParams));
   const [profiles, setProfiles] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -30,10 +47,7 @@ export function DiscoverList({ endpoint }) {
     setError(null);
     append ? setLoadingMore(true) : setLoading(true);
 
-    const params = new URLSearchParams();
-    Object.entries(activeFilters).forEach(([key, value]) => {
-      if (value !== "") params.set(key, value);
-    });
+    const params = new URLSearchParams(toQueryObject(activeFilters));
     params.set("limit", PAGE_SIZE);
     params.set("offset", offset);
 
@@ -50,8 +64,12 @@ export function DiscoverList({ endpoint }) {
   }, [endpoint]);
 
   useEffect(() => {
-    setFilters(initialFilters);
-    load(initialFilters);
+    const urlFilters = filtersFromParams(searchParams);
+    setFilters(urlFilters);
+    load(urlFilters);
+    // mount-only: restores filters from the URL (so browser back/forward
+    // brings them back) without re-running on every keystroke -- submitted
+    // filters are pushed to the URL from handleSubmit, not read back from it.
   }, [load]);
 
   function handleChange(e) {
@@ -60,6 +78,7 @@ export function DiscoverList({ endpoint }) {
 
   function handleSubmit(e) {
     e.preventDefault();
+    setSearchParams(toQueryObject(filters), { replace: true });
     load(filters);
   }
 

@@ -105,6 +105,8 @@ export async function getProfileDetail(viewerId, targetId) {
     lastName: target.last_name,
     gender: target.gender,
     sexualOrientation: target.sexual_orientation,
+    birth_date: target.birth_date,
+    age: target.birth_date ? Math.floor((Date.now() - new Date(target.birth_date).getTime()) / (365.25 * 24 * 60 * 60 * 1000)) : null,
     bio: target.bio,
     locationLabel: target.location_label,
     popularityScore: target.popularity_score + 1,

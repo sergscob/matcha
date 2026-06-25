@@ -9,7 +9,11 @@ const TYPE_LABELS = {
   unlike: "is no longer connected with you",
   profile_view: "viewed your profile",
   message: "sent you a message",
-  match: "matched with you"
+  match: "matched with you",
+  meetup_invite: "proposed a meetup",
+  meetup_accepted: "accepted your meetup invite",
+  meetup_declined: "declined your meetup invite",
+  meetup_cancelled: "cancelled a meetup"
 };
 
 export function NotificationsPage() {

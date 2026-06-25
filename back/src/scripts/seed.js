@@ -164,7 +164,11 @@ async function seed(count) {
   console.log(`Done. All seed accounts share the password: ${SEED_PASSWORD}`);
 }
 
-const count = Number(process.argv[2]) || 500;
+if (process.argv[1] === new URL(import.meta.url).pathname) {
+  const count = Number(process.argv[2]) || 500;
 
-await seed(count);
-process.exit();
+  await seed(count);
+  process.exit();
+}
+
+export { seed };

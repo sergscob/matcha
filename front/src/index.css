@@ -85,6 +85,7 @@ button:disabled {
   display: flex;
   align-items: center;
   gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .nav a {
@@ -167,6 +168,7 @@ textarea {
 
 .status {
   color: #555;
+  word-break: break-all;
 }
 
 .status.liked {
@@ -644,6 +646,34 @@ textarea {
   font-size: 0.8rem;
   font-weight: 600;
   color: #d6336c;
+}
+
+.meetup-form {
+  margin-top: 1rem;
+}
+
+.meetup-actions {
+  display: flex;
+  flex-shrink: 0;
+  gap: 0.5rem;
+}
+
+.meetup-status {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.meetup-status-pending {
+  color: #b8860b;
+}
+
+.meetup-status-accepted {
+  color: #2f9e44;
+}
+
+.meetup-status-declined,
+.meetup-status-cancelled {
+  color: #888;
 }
 
 .message-list {
