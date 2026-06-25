@@ -453,6 +453,11 @@ textarea {
   gap: 1rem;
 }
 
+.show-more {
+  display: block;
+  margin: 1.5rem auto 0;
+}
+
 .discover-card {
   display: flex;
   flex-direction: column;

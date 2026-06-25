@@ -1,8 +1,10 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { api } from "../api/client";
 import { ProfileCard } from "./ProfileCard";
 import { Spinner } from "./Spinner";
+
+const PAGE_SIZE = 20;
 
 const initialFilters = {
   ageMin: "",
@@ -20,22 +22,30 @@ export function DiscoverList({ endpoint }) {
   const [profiles, setProfiles] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [hasMore, setHasMore] = useState(false);
+  const appliedFiltersRef = useRef(initialFilters);
 
-  const load = useCallback(async activeFilters => {
+  const load = useCallback(async (activeFilters, { offset = 0, append = false } = {}) => {
     setError(null);
-    setLoading(true);
+    append ? setLoadingMore(true) : setLoading(true);
 
     const params = new URLSearchParams();
     Object.entries(activeFilters).forEach(([key, value]) => {
       if (value !== "") params.set(key, value);
     });
+    params.set("limit", PAGE_SIZE);
+    params.set("offset", offset);
 
     try {
-      setProfiles(await api.get(`${endpoint}?${params.toString()}`));
+      const page = await api.get(`${endpoint}?${params.toString()}`);
+      appliedFiltersRef.current = activeFilters;
+      setProfiles(prev => (append ? [...prev, ...page] : page));
+      setHasMore(page.length === PAGE_SIZE);
     } catch (err) {
       setError(err.message);
     } finally {
-      setLoading(false);
+      append ? setLoadingMore(false) : setLoading(false);
     }
   }, [endpoint]);
 
@@ -51,6 +61,10 @@ export function DiscoverList({ endpoint }) {
   function handleSubmit(e) {
     e.preventDefault();
     load(filters);
+  }
+
+  function handleShowMore() {
+    load(appliedFiltersRef.current, { offset: profiles.length, append: true });
   }
 
   return (
@@ -120,6 +134,12 @@ export function DiscoverList({ endpoint }) {
         <div className="discover-grid">
           {profiles.map(profile => <ProfileCard key={profile.id} profile={profile} />)}
         </div>
+      )}
+
+      { !loading && hasMore && (
+        <button type="button" className="show-more" onClick={handleShowMore} disabled={loadingMore}>
+          {loadingMore ? "Loading..." : "Show more"}
+        </button>
       )}
     </div>
   );
