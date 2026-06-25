@@ -42,7 +42,7 @@ export function SocketProvider({ children }) {
       clearTimeout(pendingDisconnectRef.current);
       pendingDisconnectRef.current = null;
     } else {
-      socketRef.current = io(API_URL, { withCredentials: true });
+      socketRef.current = io(API_URL || undefined, { withCredentials: true });
       setSocket(socketRef.current);
     }
 

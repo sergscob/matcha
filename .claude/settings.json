@@ -22,7 +22,12 @@
       "Bash(node -e \"require\\('playwright'\\); console.log\\('ok'\\)\")",
       "Bash(node test_map.js)",
       "Bash(xargs -I{} sh -c 'echo \"== {} ==\"; cat {}')",
-      "Bash(grep -n \"\\\\.header\\\\|\\\\.nav \\\\|\\\\.nav{\\\\|\\\\.nav,\\\\|\\\\.username\\\\|\\\\.notification-list\\\\|\\\\.tag-list\\\\|\\\\.tag-chip\\\\|\\\\.conversation-info\\\\|\\\\.conversation-link\\\\|\\\\.conversation-preview\" /home/adv/.ssh/42/matcha/front/src/index.css)"
+      "Bash(grep -n \"\\\\.header\\\\|\\\\.nav \\\\|\\\\.nav{\\\\|\\\\.nav,\\\\|\\\\.username\\\\|\\\\.notification-list\\\\|\\\\.tag-list\\\\|\\\\.tag-chip\\\\|\\\\.conversation-info\\\\|\\\\.conversation-link\\\\|\\\\.conversation-preview\" /home/adv/.ssh/42/matcha/front/src/index.css)",
+      "Bash(curl -s -i -c /tmp/claude-1000/-home-adv--ssh-42-matcha/c250d854-2c0f-40c5-a750-a51ec755c6ac/scratchpad/docker_cookies.txt -X POST http://localhost/auth/login -H 'Content-Type: application/json' -d '{\"username\":\"seed_wilson_ward-lynch_15\",\"password\":\"Matcha-Seed1!\"}')",
+      "Bash(python3 -c ' *)",
+      "Bash(docker run *)",
+      "Bash(curl -s -o /dev/null -w \"status:%{http_code} size:%{size_download}\\\\n\" \"http://localhost/uploads/86f1c93d3c07cb09eff6db7ab59971d3.png\")",
+      "Bash(node test_docker_stack.js)"
     ],
     "additionalDirectories": [
       "/tmp/claude-1000/-home-adv--ssh-42-matcha/185e320d-1005-4ea2-bd57-530655277040/scratchpad/pw/uploads"

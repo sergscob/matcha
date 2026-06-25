@@ -3,6 +3,7 @@
  "type": "module",
  "scripts": {
   "dev": "node --watch src/app.js",
+  "start": "node src/app.js",
   "migrate": "node src/scripts/migrate.js",
   "seed": "node src/scripts/seed.js"
  },
