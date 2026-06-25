@@ -130,19 +130,41 @@ export async function queryProfiles(viewer, options) {
     const genderIdx = params.length - 1;
     const orientationIdx = params.length;
 
+    // conditions.push(`
+    //   (
+    //     $${orientationIdx} = 'bisexual' 
+    //     OR ($${orientationIdx} = 'heterosexual' AND u.gender != $${genderIdx})
+    //     OR ($${orientationIdx} = 'homosexual' AND u.gender = $${genderIdx})
+    //   )
+    //   AND
+    //   (
+    //     u.sexual_orientation = 'bisexual' 
+    //     OR (u.sexual_orientation = 'heterosexual' AND u.gender != $${genderIdx})
+    //     OR (u.sexual_orientation = 'homosexual' AND u.gender = $${genderIdx})
+    //   )
+    // `);
+
     conditions.push(`
       (
-        $${orientationIdx} = 'bisexual'
-        OR ($${orientationIdx} = 'heterosexual' AND u.gender != $${genderIdx})
-        OR ($${orientationIdx} = 'homosexual' AND u.gender = $${genderIdx})
+        CASE COALESCE($${orientationIdx}, 'bisexual')
+          WHEN 'bisexual' THEN TRUE
+          WHEN 'heterosexual' THEN u.gender != $${genderIdx}
+          WHEN 'homosexual' THEN u.gender = $${genderIdx}
+          ELSE TRUE
+        END
       )
       AND
       (
-        u.sexual_orientation = 'bisexual'
-        OR (u.sexual_orientation = 'heterosexual' AND u.gender != $${genderIdx})
-        OR (u.sexual_orientation = 'homosexual' AND u.gender = $${genderIdx})
+        CASE COALESCE(u.sexual_orientation, 'bisexual')
+          WHEN 'bisexual' THEN TRUE
+          WHEN 'heterosexual' THEN u.gender != $${genderIdx}
+          WHEN 'homosexual' THEN u.gender = $${genderIdx}
+          ELSE TRUE
+        END
       )
     `);
+
+
   }
 
   if (ageMin !== undefined) {

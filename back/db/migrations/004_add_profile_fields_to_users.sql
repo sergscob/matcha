@@ -3,9 +3,7 @@ ALTER TABLE users
         CHECK (gender IN ('male', 'female')),
 
     ADD COLUMN IF NOT EXISTS sexual_orientation VARCHAR(20)
-        NOT NULL
-        DEFAULT 'bisexual'
-        CHECK (sexual_orientation IN ('heterosexual', 'homosexual', 'bisexual')),
+        CHECK (sexual_orientation IN ('heterosexual', 'homosexual', 'bisexual', NULL)),
 
     ADD COLUMN IF NOT EXISTS birth_date DATE,
 
