@@ -9,7 +9,8 @@ import {
   deleteBlock,
   insertFakeReport,
   recordProfileView,
-  queryProfiles
+  queryProfiles,
+  listConnections
 } from "./discover.repository.js";
 
 import { getUserById, incrementPopularity, getTagsForUser, getPhotosForUser } from "../profile/profile.repository.js";
@@ -72,6 +73,20 @@ export async function getSearchProfiles(viewerId, filters) {
   const rows = await queryProfiles(viewer, { ...filters, applyOrientationFilter: false });
 
   return rows.map(toCard);
+}
+
+export async function getConnections(viewerId) {
+  const rows = await listConnections(viewerId);
+
+  return rows.map(row => ({
+    id: row.id,
+    username: row.username,
+    firstName: row.first_name,
+    lastName: row.last_name,
+    photoUrl: row.profile_photo ? `/uploads/${row.profile_photo}` : null,
+    isOnline: isOnline(row.last_seen),
+    connectedAt: row.connected_at
+  }));
 }
 
 export async function getProfileDetail(viewerId, targetId) {

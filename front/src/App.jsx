@@ -18,6 +18,7 @@ import { MapPage } from "./pages/MapPage";
 import { ChatPage } from "./pages/ChatPage";
 import { ChatConversationPage } from "./pages/ChatConversationPage";
 import { VisitorsPage } from "./pages/VisitorsPage";
+import { ConnectedPage } from "./pages/ConnectedPage";
 import { MeetupsPage } from "./pages/MeetupsPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
 
@@ -42,6 +43,7 @@ export default function App() {
               <Route path="chat" element={<ProtectedRoute><ChatPage /></ProtectedRoute>} />
               <Route path="chat/:id" element={<ProtectedRoute><ChatConversationPage /></ProtectedRoute>} />
               <Route path="visitors" element={<ProtectedRoute><VisitorsPage /></ProtectedRoute>} />
+              <Route path="connected" element={<ProtectedRoute><ConnectedPage /></ProtectedRoute>} />
               <Route path="meetups" element={<ProtectedRoute><MeetupsPage /></ProtectedRoute>} />
               <Route path="*" element={<NotFoundPage />} />
             </Route>

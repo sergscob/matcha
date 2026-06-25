@@ -62,7 +62,12 @@
       "Bash(podman compose *)",
       "Bash(make -n prod)",
       "Bash(make -n ENGINE=podman prod)",
-      "Bash(make -n fclear)"
+      "Bash(make -n fclear)",
+      "Bash(curl -s -X POST http://localhost:3001/auth/register -H 'Content-Type: application/json' -d '{\"email\":\"conn.a.test@example.com\",\"username\":\"conn_a_t\",\"firstName\":\"Anna\",\"lastName\":\"Test\",\"password\":\"Sup3rSecret!9\"}')",
+      "Bash(curl -s -X POST http://localhost:3001/auth/register -H 'Content-Type: application/json' -d '{\"email\":\"conn.b.test@example.com\",\"username\":\"conn_b_t\",\"firstName\":\"Ben\",\"lastName\":\"Test\",\"password\":\"Sup3rSecret!9\"}')",
+      "Bash(curl -s -c connA.txt -X POST http://localhost:3001/auth/login -H \"Content-Type: application/json\" -d '{\"username\":\"conn_a_t\",\"password\":\"Sup3rSecret!9\"}')",
+      "Bash(curl -s -b connA.txt http://localhost:3001/discover/connected)",
+      "Bash(kill 32743 32750)"
     ],
     "additionalDirectories": [
       "/tmp/claude-1000/-home-adv--ssh-42-matcha/185e320d-1005-4ea2-bd57-530655277040/scratchpad/pw/uploads",

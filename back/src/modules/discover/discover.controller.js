@@ -4,6 +4,7 @@ import {
   getSuggestedProfiles,
   getSearchProfiles,
   getMapProfiles,
+  getConnections,
   getProfileDetail,
   likeUser,
   unlikeUser,
@@ -33,6 +34,10 @@ export async function searchController(req, res) {
 
 export async function mapController(req, res) {
   res.json(await getMapProfiles(req.userId, parseFilters(req.query, discoverMapQuerySchema)));
+}
+
+export async function connectedController(req, res) {
+  res.json(await getConnections(req.userId));
 }
 
 export async function profileDetailController(req, res) {

@@ -4,6 +4,7 @@ import {
   suggestedController,
   searchController,
   mapController,
+  connectedController,
   profileDetailController,
   likeController,
   unlikeController,
@@ -23,6 +24,7 @@ router.use(authMiddleware);
 router.get("/suggested", suggestedController);
 router.get("/search", searchController);
 router.get("/map", mapController);
+router.get("/connected", connectedController);
 
 router.get("/:id", profileDetailController);
 router.post("/:id/like", likeController);

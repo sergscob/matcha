@@ -73,6 +73,25 @@ export async function insertFakeReport(reporterId, reportedId) {
   );
 }
 
+export async function listConnections(userId) {
+  const result = await pool.query(
+    `SELECT u.id, u.username, u.first_name, u.last_name, u.last_seen,
+       (SELECT file_name FROM photos p WHERE p.user_id = u.id AND p.is_profile = TRUE LIMIT 1) AS profile_photo,
+       GREATEST(a.created_at, b.created_at) AS connected_at
+     FROM users u
+     JOIN likes a ON a.liker_id = $1 AND a.liked_id = u.id
+     JOIN likes b ON b.liker_id = u.id AND b.liked_id = $1
+     WHERE NOT EXISTS (
+       SELECT 1 FROM blocks
+       WHERE (blocker_id = $1 AND blocked_id = u.id) OR (blocker_id = u.id AND blocked_id = $1)
+     )
+     ORDER BY connected_at DESC`,
+    [userId]
+  );
+
+  return result.rows;
+}
+
 export async function recordProfileView(viewerId, viewedId) {
   await pool.query(
     `INSERT INTO profile_views (viewer_id, viewed_id) VALUES ($1, $2)`,
