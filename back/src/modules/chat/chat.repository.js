@@ -45,13 +45,6 @@ export async function markMessagesRead(recipientId, senderId) {
   );
 }
 
-/**
- * Conversations are derived from mutual likes (the subject's "connected"
- * users), not a separate table -- a pair only ever needs to appear here if
- * they're currently connected. Past partners who later unliked still keep
- * their message history reachable via GET /chat/:id/messages, just not
- * listed here since they're no longer "connected".
- */
 export async function listConversations(userId) {
   const result = await pool.query(
     `SELECT u.id, u.username, u.first_name, u.last_name, u.last_seen,

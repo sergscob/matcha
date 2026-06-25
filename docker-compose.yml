@@ -1,9 +1,7 @@
 services:
   postgres:
     image: postgres:17
-
-    container_name: matcha-postgres
-
+    container_name: postgres
     restart: unless-stopped
 
     environment:
@@ -30,9 +28,9 @@ services:
     depends_on:
       - postgres
 
-  backend:
+  back:
     build: ./back
-
+    container_name: back
     env_file: ./back/.env
 
     environment:
@@ -50,14 +48,14 @@ services:
 
     restart: unless-stopped
 
-  nginx:
+  front:
     build: ./front
-
+    container_name: front
     ports:
       - "8080:80"
 
     depends_on:
-      - backend
+      - back
 
     volumes:
       - uploads_data:/usr/share/nginx/uploads:ro

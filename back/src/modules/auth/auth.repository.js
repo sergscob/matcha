@@ -47,13 +47,6 @@ export async function markUserVerified(userId) {
 }
 
 export async function touchLastSeen(userId) {
-  // Pass a JS Date as a bound parameter rather than using SQL NOW().
-  // node-postgres serializes/parses "timestamp without time zone" using
-  // local-time calendar math, so a value written via NOW() (computed
-  // purely server-side, no local-time adjustment) reads back skewed by
-  // the app server's UTC offset. Driver-serialized JS Date params don't
-  // have this problem because the same local-time math applies
-  // symmetrically on write and read.
   await pool.query(
     `UPDATE users SET last_seen = $2 WHERE id = $1`,
     [userId, new Date()]

@@ -70,12 +70,12 @@ export function MeetupsPage() {
     <div className="card chat-list-card">
       <h1>Meetups</h1>
 
-      {meetups.length === 0 && (
+      {!meetups.length && (
         <p className="status">No meetups yet. Propose one from a connected user's profile.</p>
       )}
 
       <ul className="conversation-list">
-        {meetups.map(m => (
+        { !!meetups.length && meetups.map(m => (
           <li key={m.id} className="visitor-row">
             <Link to={`/users/${m.otherUser.id}`} className="conversation-link">
               <div className="discover-card-photo conversation-photo">

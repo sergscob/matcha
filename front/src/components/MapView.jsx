@@ -28,14 +28,6 @@ function buildPopup(point, navigate) {
   name.textContent = point.firstName + (point.age != null ? `, ${point.age}` : "");
   container.appendChild(name);
 
-  const location = document.createElement("span");
-  location.textContent = point.locationLabel || "Unknown location";
-  container.appendChild(location);
-
-  const popularity = document.createElement("span");
-  popularity.textContent = `Popularity ${point.popularityScore}`;
-  container.appendChild(popularity);
-
   const button = document.createElement("button");
   button.type = "button";
   button.textContent = "View profile";

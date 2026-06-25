@@ -1,20 +1,22 @@
-
 .PHONY: all prod prod-https back front i-back i-front i back-admin
 
-# Switch container engine with `make ENGINE=podman ...`, or change the default here.
+
 ENGINE ?= podman
 COMPOSE := $(ENGINE)-compose
 
 all:
-	$(MAKE) back &
-	$(MAKE) front &
+	$(MAKE) i-back
+	$(MAKE) i-front
+	$(COMPOSE) up postgres -d
+	@sleep 5
+	(cd back && npm run migrate && npm run seed:if-empty && npm run dev) & (cd front && npm run dev)
 	wait
 
 prod:
 	$(COMPOSE) up --build -d
 
 back:
-	$(COMPOSE) up postgres -d && cd back && npm run dev
+	$(COMPOSmake E) up postgres -d && cd back && npm run dev
 
 front:
 	cd front && npm run dev
@@ -29,6 +31,7 @@ i:
 	$(MAKE) i-back
 	$(MAKE) i-front
 
+
 seed:
 	$(COMPOSE) up postgres -d && cd back && npm run seed 500
 
@@ -38,8 +41,7 @@ clearcontainers:
 
 clearports:
 	(lsof -ti :8080 | xargs -r kill -9) || exit 0
-	(lsof -ti :8000 | xargs -r kill -9) || exit 0
-	(lsof -ti :8080 | xargs -r kill -9) || exit 0
+	(lsof -ti :3000 | xargs -r kill -9) || exit 0
 	(lsof -ti :5173 | xargs -r kill -9) || exit 0
 
 clearback:
@@ -53,3 +55,8 @@ fclear:
 	$(MAKE) clearports
 	$(MAKE) clearback
 	$(MAKE) clearfront
+
+	rm -rf back/uploads
+	($(ENGINE) volume rm matcha_postgres_data) || exit 0
+	($(ENGINE) volume rm matcha_uploads_data) || exit 0
+	@echo "Cleaned"

@@ -99,17 +99,6 @@ export async function recordProfileView(viewerId, viewedId) {
   );
 }
 
-/**
- * Shared query backing both the "suggested profiles" (browsing) and
- * "advanced search" features. The only structural difference between them
- * is whether sexual-orientation compatibility is enforced as a hard filter
- * (browsing) or left out (search, which is driven purely by the user's
- * explicit criteria per the subject's IV.4).
- *
- * Default ordering ("smart" ranking, used when no explicit sortBy is given):
- * same-area users first (distance <= 50km), then by a composite score of
- * shared tags (weighted heaviest), popularity, and proximity.
- */
 export async function queryProfiles(viewer, options) {
   const {
     applyOrientationFilter,
@@ -141,19 +130,41 @@ export async function queryProfiles(viewer, options) {
     const genderIdx = params.length - 1;
     const orientationIdx = params.length;
 
+    // conditions.push(`
+    //   (
+    //     $${orientationIdx} = 'bisexual' 
+    //     OR ($${orientationIdx} = 'heterosexual' AND u.gender != $${genderIdx})
+    //     OR ($${orientationIdx} = 'homosexual' AND u.gender = $${genderIdx})
+    //   )
+    //   AND
+    //   (
+    //     u.sexual_orientation = 'bisexual' 
+    //     OR (u.sexual_orientation = 'heterosexual' AND u.gender != $${genderIdx})
+    //     OR (u.sexual_orientation = 'homosexual' AND u.gender = $${genderIdx})
+    //   )
+    // `);
+
     conditions.push(`
       (
-        $${orientationIdx} = 'bisexual'
-        OR ($${orientationIdx} = 'heterosexual' AND u.gender != $${genderIdx})
-        OR ($${orientationIdx} = 'homosexual' AND u.gender = $${genderIdx})
+        CASE COALESCE($${orientationIdx}, 'bisexual')
+          WHEN 'bisexual' THEN TRUE
+          WHEN 'heterosexual' THEN u.gender != $${genderIdx}
+          WHEN 'homosexual' THEN u.gender = $${genderIdx}
+          ELSE TRUE
+        END
       )
       AND
       (
-        u.sexual_orientation = 'bisexual'
-        OR (u.sexual_orientation = 'heterosexual' AND u.gender != $${genderIdx})
-        OR (u.sexual_orientation = 'homosexual' AND u.gender = $${genderIdx})
+        CASE COALESCE(u.sexual_orientation, 'bisexual')
+          WHEN 'bisexual' THEN TRUE
+          WHEN 'heterosexual' THEN u.gender != $${genderIdx}
+          WHEN 'homosexual' THEN u.gender = $${genderIdx}
+          ELSE TRUE
+        END
       )
     `);
+
+
   }
 
   if (ageMin !== undefined) {
