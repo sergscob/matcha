@@ -90,11 +90,6 @@ export function ChatConversationPage() {
 
             {chatProfile && (
                 <div className="chat-header" style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "10px" }}>
-                    {/* <img
-                        src={chatProfile.photoUrl}
-                        alt={chatProfile.firstName}
-                        style={{ width: 40, height: 40, borderRadius: "50%" }}
-                    /> */}
                     <div>
                         <p>{chatProfile.firstName} {chatProfile.lastName}</p>
                     </div>
