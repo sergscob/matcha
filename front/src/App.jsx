@@ -1,9 +1,11 @@
+import { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { AuthProvider } from "./context/AuthProvider";
 import { SocketProvider } from "./context/SocketProvider";
 import { Layout } from "./components/Layout";
 import { ProtectedRoute } from "./components/ProtectedRoute";
+import { Spinner } from "./components/Spinner";
 import { ProfilePage } from "./pages/ProfilePage";
 import { RegisterPage } from "./pages/auth/RegisterPage";
 import { LoginPage } from "./pages/auth/LoginPage";
@@ -14,13 +16,17 @@ import { ProfileDetailPage } from "./pages/ProfileDetailPage";
 import { NotificationsPage } from "./pages/NotificationsPage";
 import { BrowsePage } from "./pages/BrowsePage";
 import { SearchPage } from "./pages/SearchPage";
-import { MapPage } from "./pages/MapPage";
 import { ChatPage } from "./pages/ChatPage";
 import { ChatConversationPage } from "./pages/ChatConversationPage";
 import { VisitorsPage } from "./pages/VisitorsPage";
 import { ConnectedPage } from "./pages/ConnectedPage";
 import { MeetupsPage } from "./pages/MeetupsPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
+
+// Lazy-loaded: Leaflet (JS + CSS) would otherwise load on every page, not
+// just /map, and its bundled CSS triggers browser console warnings the
+// moment the stylesheet is parsed -- not just when the map is actually shown.
+const MapPage = lazy(() => import("./pages/MapPage").then(m => ({ default: m.MapPage })));
 
 export default function App() {
   return (
@@ -39,7 +45,13 @@ export default function App() {
               <Route path="notifications" element={<ProtectedRoute><NotificationsPage /></ProtectedRoute>} />
               <Route path="browse" element={<ProtectedRoute><BrowsePage /></ProtectedRoute>} />
               <Route path="search" element={<ProtectedRoute><SearchPage /></ProtectedRoute>} />
-              <Route path="map" element={<ProtectedRoute><MapPage /></ProtectedRoute>} />
+              <Route path="map" element={
+                <ProtectedRoute>
+                  <Suspense fallback={<Spinner className="big-loading" />}>
+                    <MapPage />
+                  </Suspense>
+                </ProtectedRoute>
+              } />
               <Route path="chat" element={<ProtectedRoute><ChatPage /></ProtectedRoute>} />
               <Route path="chat/:id" element={<ProtectedRoute><ChatConversationPage /></ProtectedRoute>} />
               <Route path="visitors" element={<ProtectedRoute><VisitorsPage /></ProtectedRoute>} />

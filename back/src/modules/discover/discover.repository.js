@@ -245,7 +245,7 @@ export async function queryProfiles(viewer, options) {
   const sql = `
     SELECT * FROM (
       SELECT
-        u.id, u.username, u.first_name, u.last_name, u.gender,
+        u.id, u.username, u.first_name, u.last_name, u.gender, u.sexual_orientation,
         u.location_label, u.latitude, u.longitude, u.popularity_score, u.last_seen,
         DATE_PART('year', AGE(u.birth_date)) AS age,
         (SELECT file_name FROM photos p WHERE p.user_id = u.id AND p.is_profile = TRUE LIMIT 1) AS profile_photo,

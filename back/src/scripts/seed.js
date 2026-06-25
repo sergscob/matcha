@@ -100,7 +100,8 @@ async function seedUser(index, passwordHash, tagIds) {
   const lastName = faker.person.lastName();
   const slug = faker.helpers.slugify(`${firstName}_${lastName}`).toLowerCase().slice(0, 25);
   const username = index ? `seed_${slug}_${index}` : "user1";
-  console.log( username)
+  const orientation = pickOrientation();
+  console.log(username)
   const email = `${username}@${SEED_EMAIL_DOMAIN}`;
   const city = faker.helpers.arrayElement(CITIES);
   const birthDate = faker.date.birthdate({ min: 18, max: 65, mode: "age" }).toISOString().slice(0, 10);
@@ -118,7 +119,7 @@ async function seedUser(index, passwordHash, tagIds) {
      RETURNING id`,
     [
       email, username, firstName, lastName, passwordHash,
-      gender, pickOrientation(), birthDate, faker.lorem.sentences({ min: 1, max: 3 }),
+      gender, orientation, birthDate, faker.lorem.sentences({ min: 1, max: 3 }),
       jitter(city.latitude, 0.2), jitter(city.longitude, 0.2), city.label,
       faker.number.int({ min: 0, max: 150 }), lastSeen
     ]

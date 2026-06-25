@@ -203,7 +203,7 @@ export function ProfilePage() {
           <label>
             Gender
             <select name="gender" value={form.gender} onChange={handleChange} required>
-              <option value="NULL" disabled>Select...</option>
+              <option value="" disabled>Select...</option>
               <option value="male">Male</option>
               <option value="female">Female</option>
             </select>
@@ -212,7 +212,7 @@ export function ProfilePage() {
           <label>
             Sexual preference
             <select name="sexualOrientation" value={form.sexualOrientation} onChange={handleChange}>
-              <option value="NULL" disabled>Select...</option>
+              <option value="" disabled>Select...</option>
               <option value="heterosexual">Heterosexual</option>
               <option value="homosexual">Homosexual</option>
               <option value="bisexual">Bisexual</option>

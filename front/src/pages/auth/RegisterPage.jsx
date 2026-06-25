@@ -52,7 +52,7 @@ export function RegisterPage() {
         </label>
 
         <label>
-          Username
+          Login
           <input type="text" name="username" value={form.username} onChange={handleChange} minLength={3} maxLength={30} required autoComplete="username" />
         </label>
 

@@ -17,9 +17,9 @@ export function ProfileCard({ profile }) {
         <strong>{profile.firstName}{profile.age != null ? `, ${profile.age}` : ""}</strong>
         <span className="status">
           {profile.gender=='female' ? "F" : profile.gender=='male' ? "M" : "?"}
-          {" · "}
+          {/* {" · "}
           {profile.sexualOrientation=='bisexual' ? "bisexual" : 
-          profile.sexualOrientation=='heterosexual' ? "heterosexual" : profile.sexualOrientation=='homosexual' ? "homosexual" : "?"}
+          profile.sexualOrientation=='heterosexual' ? "heterosexual" : profile.sexualOrientation=='homosexual' ? "homosexual" : "?"} */}
           {" · "}
           {profile.locationLabel || "Unknown location"}
           {profile.distanceKm != null ? ` · ${profile.distanceKm} km` : ""}

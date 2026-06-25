@@ -207,9 +207,9 @@ export function ProfileDetailPage() {
             </button>
           </form>
         )}
-        {message && <p className="status">{message}</p>}
       </div>
     }
+    {message && <p className="status">{message}</p>}
     </div>
   );
 }
