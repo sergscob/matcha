@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { api } from "../api/client";
 import { Spinner } from "../components/Spinner";
 
+import { useSocket } from "../context/useSocket";
+
 const TYPE_LABELS = {
   like: "liked you",
   unlike: "is no longer connected with you",
@@ -16,6 +18,8 @@ export function NotificationsPage() {
   const [notifications, setNotifications] = useState(null);
   const [error, setError] = useState(null);
   const [markingRead, setMarkingRead] = useState(false);
+
+  const { refreshCounts } = useSocket();
 
   async function load() {
     setError(null);
@@ -36,6 +40,7 @@ export function NotificationsPage() {
 
     try {
       await api.post("/notifications/read-all");
+      await refreshCounts();
       await load();
     } catch (err) {
       setError(err.message);
