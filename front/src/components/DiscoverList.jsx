@@ -4,6 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import { api } from "../api/client";
 import { ProfileCard } from "./ProfileCard";
 import { Spinner } from "./Spinner";
+import { TagFilterInput } from "./TagFilterInput";
 
 const PAGE_SIZE = 20;
 
@@ -67,9 +68,6 @@ export function DiscoverList({ endpoint }) {
     const urlFilters = filtersFromParams(searchParams);
     setFilters(urlFilters);
     load(urlFilters);
-    // mount-only: restores filters from the URL (so browser back/forward
-    // brings them back) without re-running on every keystroke -- submitted
-    // filters are pushed to the URL from handleSubmit, not read back from it.
   }, [load]);
 
   function handleChange(e) {
@@ -114,9 +112,9 @@ export function DiscoverList({ endpoint }) {
           <input type="text" name="location" value={filters.location} onChange={handleChange} placeholder="city" autoComplete="off" maxLength={100} />
         </label>
 
-        <label>
+        <label className="tag-filter-label">
           Tags
-          <input type="text" name="tags" value={filters.tags} onChange={handleChange} placeholder="vegan,geek" autoComplete="off" maxLength={250} />
+          <TagFilterInput value={filters.tags} onChange={tags => setFilters({ ...filters, tags })} />
         </label>
 
         <label>

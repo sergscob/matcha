@@ -283,7 +283,8 @@ textarea {
   font-weight: normal;
 }
 
-.tag-suggestions button:hover {
+.tag-suggestions button:hover,
+.tag-suggestions button.active {
   background: #faf5f7;
 }
 
@@ -458,6 +459,10 @@ textarea {
   flex: 1 1 140px;
 }
 
+.filters .tag-filter-label {
+  flex: 2 1 220px;
+}
+
 .filters input,
 .filters select {
   width: 100%;
@@ -465,6 +470,10 @@ textarea {
 
 .filters button {
   height: 2.5rem;
+}
+
+.filters button.tag-chip-close {
+  height: 1.2rem;
 }
 
 .discover-grid {
