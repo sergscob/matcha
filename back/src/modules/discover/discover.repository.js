@@ -237,11 +237,6 @@ export async function queryProfiles(viewer, options) {
   const limitIdx = params.length - 1;
   const offsetIdx = params.length;
 
-  // Wrapped in a subquery because PostgreSQL only allows a SELECT-list
-  // alias to be used as a bare ORDER BY key, not inside a larger expression
-  // (the smart-ranking formula below needs distance_km/common_tags inside
-  // CASE/arithmetic) -- once they're real columns of the derived table,
-  // the outer ORDER BY can use them freely.
   const sql = `
     SELECT * FROM (
       SELECT

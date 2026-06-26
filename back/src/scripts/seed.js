@@ -12,10 +12,6 @@ const SEED_PASSWORD = "MatchaUser1!";
 const UPLOADS_DIR = path.resolve("uploads");
 const PROFILE_PHOTO_RATE = 0.75;
 
-// 10 solid-color 1x1 PNGs (each just a single RGB pixel, stretched to fill
-// the photo grid via CSS) -- generated and chunk-verified programmatically,
-// not hand-typed, since a hand-typed base64 PNG silently corrupted past the
-// IDAT chunk last time (Chrome rendered it anyway, Firefox correctly didn't)
 const PLACEHOLDER_SQUARES = [
   "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVR4nGN4amkKAANaAVQyQZovAAAAAElFTkSuQmCC",
   "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVR4nGP43cMAAAQNAYixJnTrAAAAAElFTkSuQmCC",

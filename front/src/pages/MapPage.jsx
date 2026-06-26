@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { api } from "../api/client";
 import { MapView } from "../components/MapView";
 import { Spinner } from "../components/Spinner";
+import { TagFilterInput } from "../components/TagFilterInput";
 
 const initialFilters = { ageMin: "", ageMax: "", popularityMin: "", popularityMax: "", location: "", tags: "" };
 
@@ -95,9 +96,9 @@ export function MapPage() {
           <input type="text" name="location" value={filters.location} onChange={handleChange} placeholder="city" autoComplete="off" maxLength={100} />
         </label>
 
-        <label>
+        <label className="tag-filter-label">
           Tags
-          <input type="text" name="tags" value={filters.tags} onChange={handleChange} placeholder="vegan,geek" autoComplete="off" maxLength={250} />
+          <TagFilterInput value={filters.tags} onChange={tags => setFilters({ ...filters, tags })} />
         </label>
 
         <button type="submit" disabled={loading}>

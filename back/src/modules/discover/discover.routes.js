@@ -77,8 +77,6 @@ const router = Router();
 
 router.use(authMiddleware);
 
-// literal paths must come before the "/:id" param route, or
-// "/suggested" and "/search" would be swallowed as an :id value.
 router.get("/suggested", suggestedController);
 router.get("/search", searchController);
 router.get("/map", mapController);

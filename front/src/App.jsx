@@ -23,9 +23,6 @@ import { ConnectedPage } from "./pages/ConnectedPage";
 import { MeetupsPage } from "./pages/MeetupsPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
 
-// Lazy-loaded: Leaflet (JS + CSS) would otherwise load on every page, not
-// just /map, and its bundled CSS triggers browser console warnings the
-// moment the stylesheet is parsed -- not just when the map is actually shown.
 const MapPage = lazy(() => import("./pages/MapPage").then(m => ({ default: m.MapPage })));
 
 export default function App() {
