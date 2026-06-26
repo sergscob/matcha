@@ -686,6 +686,16 @@ textarea {
   min-width: 0;
 }
 
+.meetup-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.meetup-actions {
+  margin-top: 10px;
+}
+
 .liked-you-badge {
   font-size: 0.8rem;
   font-weight: 600;

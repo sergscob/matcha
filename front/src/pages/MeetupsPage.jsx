@@ -77,6 +77,7 @@ export function MeetupsPage() {
       <ul className="conversation-list">
         { !!meetups.length && meetups.map(m => (
           <li key={m.id} className="visitor-row">
+            <div className="meetup-content">
             <Link to={`/users/${m.otherUser.id}`} className="conversation-link">
               <div className="discover-card-photo conversation-photo">
                 {m.otherUser.photoUrl
@@ -110,6 +111,7 @@ export function MeetupsPage() {
                   Cancel
                 </button>
               )}
+            </div>
             </div>
           </li>
         ))}
