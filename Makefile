@@ -1,7 +1,7 @@
 .PHONY: all prod prod-https back front i-back i-front i back-admin
 
 
-ENGINE ?= docker
+ENGINE ?= podman
 # ENGINE ?= podman
 COMPOSE := $(ENGINE)-compose
 

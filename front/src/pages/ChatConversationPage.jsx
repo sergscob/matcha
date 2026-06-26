@@ -22,12 +22,6 @@ export function ChatConversationPage() {
         setError(null);
 
         try {
-            //   const [msgs, profile] = await Promise.all([
-            //     api.get(`/chat/${id}/messages`),
-            //     api.get(`/chat/${id}/profile`)
-            //   ]);
-            //   setMessages(msgs);
-            //   setChatProfile(profile);
             setMessages(await api.get(`/chat/${id}/messages`));
             setChatProfile(await api.get(`/discover/${id}`));
             await api.post(`/chat/${id}/read`);
@@ -92,7 +86,9 @@ export function ChatConversationPage() {
             {chatProfile && (
                 <div className="chat-header" style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "10px" }}>
                     <div>
-                        <p>{chatProfile.firstName} {chatProfile.lastName}</p>
+                        <Link to={`/users/${chatProfile.id}`}>
+                            {chatProfile.firstName} {chatProfile.lastName}
+                        </Link>
                     </div>
                 </div>
             )}
