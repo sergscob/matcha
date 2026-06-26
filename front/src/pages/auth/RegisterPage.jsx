@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import { api } from "../../api/client";
 import { Spinner } from "../../components/Spinner";
+import { stripAngleBrackets } from "../../utils/sanitizeText";
 
 const initialForm = { email: "", username: "", firstName: "", lastName: "", password: "" };
 
@@ -13,7 +14,8 @@ export function RegisterPage() {
   const [registeredEmail, setRegisteredEmail] = useState(null);
 
   function handleChange(e) {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: name === "password" ? value : stripAngleBrackets(value) });
   }
 
   async function handleSubmit(e) {

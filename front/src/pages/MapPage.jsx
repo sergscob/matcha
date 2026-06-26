@@ -4,6 +4,7 @@ import { api } from "../api/client";
 import { MapView } from "../components/MapView";
 import { Spinner } from "../components/Spinner";
 import { TagFilterInput } from "../components/TagFilterInput";
+import { stripAngleBrackets } from "../utils/sanitizeText";
 
 const initialFilters = { ageMin: "", ageMax: "", popularityMin: "", popularityMax: "", location: "", tags: "" };
 
@@ -58,7 +59,7 @@ export function MapPage() {
   }, []);
 
   function handleChange(e) {
-    setFilters({ ...filters, [e.target.name]: e.target.value });
+    setFilters({ ...filters, [e.target.name]: stripAngleBrackets(e.target.value) });
   }
 
   function handleSubmit(e) {

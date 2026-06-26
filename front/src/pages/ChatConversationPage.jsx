@@ -5,6 +5,7 @@ import { api } from "../api/client";
 import { useAuth } from "../context/useAuth";
 import { useSocket } from "../context/useSocket";
 import { Spinner } from "../components/Spinner";
+import { stripAngleBrackets } from "../utils/sanitizeText";
 
 export function ChatConversationPage() {
     const { id } = useParams();
@@ -115,7 +116,7 @@ export function ChatConversationPage() {
                 <input
                     type="text"
                     value={body}
-                    onChange={e => setBody(e.target.value)}
+                    onChange={e => setBody(stripAngleBrackets(e.target.value))}
                     placeholder="Type a message..."
                     maxLength={1024}
                     autoComplete="off"

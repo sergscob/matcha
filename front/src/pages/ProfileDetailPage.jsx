@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { api } from "../api/client";
 import { Spinner } from "../components/Spinner";
+import { stripAngleBrackets } from "../utils/sanitizeText";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -184,7 +185,7 @@ export function ProfileDetailPage() {
               <input
                 type="text"
                 value={meetupForm.locationLabel}
-                onChange={e => setMeetupForm({ ...meetupForm, locationLabel: e.target.value })}
+                onChange={e => setMeetupForm({ ...meetupForm, locationLabel: stripAngleBrackets(e.target.value) })}
                 placeholder="Café de Flore"
                 maxLength={255}
                 required

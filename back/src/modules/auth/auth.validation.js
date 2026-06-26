@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { isCommonPassword } from "../../utils/commonPasswords.js";
+import { NO_ANGLE_BRACKETS_REGEX, NO_ANGLE_BRACKETS_MESSAGE } from "../../utils/textValidation.js";
 
 const passwordSchema = z.string()
   .min(8, "Password must be at least 8 characters")
@@ -13,11 +14,11 @@ const passwordSchema = z.string()
 export const registerSchema = z.object({
   email: z.email().max(254),
 
-  username: z.string().min(4).max(30),
+  username: z.string().min(4).max(30).regex(NO_ANGLE_BRACKETS_REGEX, NO_ANGLE_BRACKETS_MESSAGE),
 
-  firstName: z.string().min(1).max(50),
+  firstName: z.string().min(1).max(50).regex(NO_ANGLE_BRACKETS_REGEX, NO_ANGLE_BRACKETS_MESSAGE),
 
-  lastName: z.string().min(1).max(50),
+  lastName: z.string().min(1).max(50).regex(NO_ANGLE_BRACKETS_REGEX, NO_ANGLE_BRACKETS_MESSAGE),
 
   password: passwordSchema
 });

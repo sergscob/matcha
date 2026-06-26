@@ -4,6 +4,7 @@ import { api } from "../api/client";
 import { TagInput } from "../components/TagInput";
 import { PhotoGrid } from "../components/PhotoGrid";
 import { Spinner } from "../components/Spinner";
+import { stripAngleBrackets } from "../utils/sanitizeText";
 
 const emptyForm = {
   firstName: "",
@@ -57,7 +58,7 @@ export function ProfilePage() {
   }, []);
 
   function handleChange(e) {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setForm({ ...form, [e.target.name]: stripAngleBrackets(e.target.value) });
   }
 
   async function handleSubmit(e) {
@@ -168,7 +169,7 @@ export function ProfilePage() {
             type="text"
             placeholder="Or enter your city manually"
             value={manualLocation}
-            onChange={e => setManualLocation(e.target.value)}
+            onChange={e => setManualLocation(stripAngleBrackets(e.target.value))}
             required
             autoComplete="off"
             maxLength={100}

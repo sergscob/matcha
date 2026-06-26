@@ -74,7 +74,11 @@
       "Bash(kill 44378 44397 44398)",
       "Bash(disown)",
       "Bash(curl -s -o /dev/null -w \"backend up: %{http_code}\\\\n\" http://localhost:3000/auth/me)",
-      "Bash(kill 48341 48354 48355)"
+      "Bash(kill 48341 48354 48355)",
+      "Bash(kill -9 52758 52777 52778)",
+      "Bash(curl -s -b /tmp/claude-1000/-home-adv--ssh-42-matcha/e691773b-a023-4009-9790-f0b0ad36ae3c/scratchpad/cookies.txt -G http://localhost:3000/discover/search --data-urlencode 'location=<script>alert\\(1\\)</script>')",
+      "Bash(pkill -9 -f \"node src/app.js\")",
+      "Bash(pkill -9 -f \"vite --port 5173\")"
     ],
     "additionalDirectories": [
       "/tmp/claude-1000/-home-adv--ssh-42-matcha/185e320d-1005-4ea2-bd57-530655277040/scratchpad/pw/uploads",

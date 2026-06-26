@@ -5,6 +5,7 @@ import { api } from "../api/client";
 import { ProfileCard } from "./ProfileCard";
 import { Spinner } from "./Spinner";
 import { TagFilterInput } from "./TagFilterInput";
+import { stripAngleBrackets } from "../utils/sanitizeText";
 
 const PAGE_SIZE = 20;
 
@@ -71,7 +72,7 @@ export function DiscoverList({ endpoint }) {
   }, [load]);
 
   function handleChange(e) {
-    setFilters({ ...filters, [e.target.name]: e.target.value });
+    setFilters({ ...filters, [e.target.name]: stripAngleBrackets(e.target.value) });
   }
 
   function handleSubmit(e) {
