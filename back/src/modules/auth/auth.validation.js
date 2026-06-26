@@ -2,15 +2,18 @@ import { z } from "zod";
 
 import { isCommonPassword } from "../../utils/commonPasswords.js";
 
-const passwordSchema = z.string().min(8).max(128).refine(
-  password => !isCommonPassword(password),
-  "Password is too common"
-);
+const passwordSchema = z.string()
+  .min(8, "Password must be at least 8 characters")
+  .max(30, "Password must be at most 30 characters")
+  .regex(/[A-Za-z]/, "Password must contain at least one letter")
+  .regex(/[0-9]/, "Password must contain at least one digit")
+  .regex(/[^A-Za-z0-9]/, "Password must contain at least one special character")
+  .refine(password => !isCommonPassword(password), "Password is too common");
 
 export const registerSchema = z.object({
   email: z.email().max(254),
 
-  username: z.string().min(3).max(30),
+  username: z.string().min(4).max(30),
 
   firstName: z.string().min(1).max(50),
 
@@ -21,7 +24,7 @@ export const registerSchema = z.object({
 
 export const loginSchema = z.object({
   username: z.string().min(1).max(30),
-  password: z.string().min(1).max(128)
+  password: z.string().min(8).max(128)
 });
 
 export const verifyEmailSchema = z.object({

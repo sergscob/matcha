@@ -53,7 +53,7 @@ export function RegisterPage() {
 
         <label>
           Login
-          <input type="text" name="username" value={form.username} onChange={handleChange} minLength={3} maxLength={30} required autoComplete="username" />
+          <input type="text" name="username" value={form.username} onChange={handleChange} minLength={4} maxLength={30} required autoComplete="username" />
         </label>
 
         <label>
@@ -68,7 +68,19 @@ export function RegisterPage() {
 
         <label>
           Password
-          <input type="password" name="password" value={form.password} onChange={handleChange} minLength={8} maxLength={128} required autoComplete="new-password" />
+          <input
+            type="password"
+            name="password"
+            value={form.password}
+            onChange={handleChange}
+            minLength={8}
+            maxLength={30}
+            pattern="(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,30}"
+            title="8-30 characters, with at least one letter, one digit, and one special character."
+            required
+            autoComplete="new-password"
+          />
+          <small className="field-hint">8-30 characters, with at least one letter, one digit, and one special character.</small>
         </label>
 
         {error && <p className="error">{error}</p>}

@@ -117,7 +117,7 @@ export function ChatConversationPage() {
                     value={body}
                     onChange={e => setBody(e.target.value)}
                     placeholder="Type a message..."
-                    maxLength={2000}
+                    maxLength={1024}
                     autoComplete="off"
                 />
                 <button type="submit" disabled={sending || !body.trim()}>

@@ -33,7 +33,18 @@ export function ResetPasswordPage() {
       <form onSubmit={handleSubmit}>
         <label>
           New password
-          <input type="password" value={password} onChange={e => setPassword(e.target.value)} minLength={8} maxLength={128} required autoComplete="new-password" />
+          <input
+            type="password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            minLength={8}
+            maxLength={30}
+            pattern="(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,30}"
+            title="8-30 characters, with at least one letter, one digit, and one special character."
+            required
+            autoComplete="new-password"
+          />
+          <small className="field-hint">8-30 characters, with at least one letter, one digit, and one special character.</small>
         </label>
 
         {error && <p className="error">{error}</p>}

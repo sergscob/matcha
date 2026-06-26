@@ -4,6 +4,7 @@ import { api } from "../api/client";
 import { Spinner } from "./Spinner";
 
 const API_URL = import.meta.env.VITE_API_URL;
+const MAX_PHOTO_SIZE = 5 * 1024 * 1024;
 
 export function PhotoGrid({ photos, onChange }) {
   const fileInput = useRef(null);
@@ -17,6 +18,12 @@ export function PhotoGrid({ photos, onChange }) {
     if (!file) return;
 
     setError(null);
+
+    if (file.size > MAX_PHOTO_SIZE) {
+      setError("Photo must be smaller than 5MB.");
+      return;
+    }
+
     setUploading(true);
 
     try {

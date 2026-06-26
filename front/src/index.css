@@ -166,6 +166,12 @@ textarea {
   font-size: 0.9rem;
 }
 
+.field-hint {
+  color: #777;
+  font-size: 0.8rem;
+  font-weight: normal;
+}
+
 .status {
   color: #555;
   word-break: break-all;
